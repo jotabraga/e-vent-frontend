@@ -16,7 +16,6 @@ export default class EnrollmentApi extends AuthenticatedApi {
         ...this.getAuthorizationHeader()
       }
     });
-    console.log(enrollment);
     return enrollment;
   }
 }
