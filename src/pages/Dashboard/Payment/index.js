@@ -1,40 +1,54 @@
 import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
+import EnrollmentApi from "../../../services/EnrollmentApi";
 
-export default function Payment() {
-  const clientEnrollment = [1];
+export default function Payment() {  
+  const enrollementAPI = new EnrollmentApi();
+  const userEnrollment = enrollementAPI.getPersonalInformations();
+  console.log(userEnrollment);
 
-  return (
-    <>
+  return (  
+    <>      
       <StyledTypography variant="h4">
-        Ingresso e pagamento
-      </StyledTypography> 
-      <TicketGenre>
-        <h2>Primeiro, escolha sua modalidade de ingresso</h2>
-        <div className='optionBox'>
-          <TicketOptions>
-            <h3>Presencial</h3>
-            <h4>R$ 250</h4>
-          </TicketOptions>
-          <TicketOptions>
-            <h3>Online</h3>
-            <h4>R$ 100</h4>
-          </TicketOptions> 
-        </div>         
-      </TicketGenre>
-      <TicketGenre>
-        <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
-        <div className='optionBox'>
-          <TicketOptions color="#FFEED2">
-            <h3>Sem Hotel</h3>
-            <h4>+R$ 0</h4>
-          </TicketOptions>
-          <TicketOptions>
-            <h3>Com Hotel</h3>
-            <h4>+R$ 350</h4>
-          </TicketOptions>
-        </div>
-      </TicketGenre>
+          Ingresso e pagamento
+      </StyledTypography>     
+      {userEnrollment === null || userEnrollment === undefined ? 
+        (
+          <NoEnrollmentMessage>
+          Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso
+          </NoEnrollmentMessage>
+        ) :
+        (
+          <>
+            <TicketGenre>
+              <h2>Primeiro, escolha sua modalidade de ingresso</h2>
+              <div className='optionBox'>
+                <TicketOptions>
+                  <h3>Presencial</h3>
+                  <h4>R$ 250</h4>
+                </TicketOptions>
+                <TicketOptions>
+                  <h3>Online</h3>
+                  <h4>R$ 100</h4>
+                </TicketOptions> 
+              </div>         
+            </TicketGenre>
+            <TicketGenre>
+              <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
+              <div className='optionBox'>
+                <TicketOptions color="#FFEED2">
+                  <h3>Sem Hotel</h3>
+                  <h4>+R$ 0</h4>
+                </TicketOptions>
+                <TicketOptions>
+                  <h3>Com Hotel</h3>
+                  <h4>+R$ 350</h4>
+                </TicketOptions>
+              </div>
+            </TicketGenre>
+          </>
+        ) 
+      } 
     </>
   );
 }
@@ -90,8 +104,3 @@ const TicketOptions = styled.div`
   text-align: center;
   background: ${(props) => props.background || "#FFF"};
 `;
-
-{/* <NoEnrollmentMessage>
-Você precisa completar sua inscrição antes de prosseguir pra escolha de
-ingresso
-</NoEnrollmentMessage> */}
