@@ -1,12 +1,19 @@
 import Typography from "@material-ui/core/Typography";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 
-export default function Payment() {  
+export default function Payment() {
+  const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
-  const userEnrollment = enrollementAPI.getPersonalInformations();
-  console.log(userEnrollment);
 
+  useEffect(() => {
+    enrollementAPI.getPersonalInformations().then(response => {
+      setUserenrollment(response.data);
+    });
+  }, []); 
+  console.log(userEnrollment);
+  
   return (  
     <>      
       <StyledTypography variant="h4">
@@ -15,7 +22,7 @@ export default function Payment() {
       {userEnrollment === null || userEnrollment === undefined ? 
         (
           <NoEnrollmentMessage>
-          Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso
+          Você precisa completar sua inscrição antes <br/> de prosseguir pra escolha de ingresso
           </NoEnrollmentMessage>
         ) :
         (
@@ -56,12 +63,13 @@ export default function Payment() {
 const NoEnrollmentMessage = styled.h1`
   font-size: 20px;
   color: #8E8E8E;
-  width: 430px;
-  height: 46px;
+  width: 100%;
+  height: auto;
   display: flex;
-  line-height: 23px;
-  flex-wrap: wrap;
+  justify-content: center;
   text-align: center;
+  margin-top: 260px;  
+  flex-direction: column;
 `;
 
 const StyledTypography = styled(Typography)`
