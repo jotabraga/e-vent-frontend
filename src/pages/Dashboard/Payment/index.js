@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
+import TicketOption from "./TicketOption";
 
 export default function Payment() {
   const [userEnrollment, setUserenrollment] = useState(null);
@@ -30,40 +31,17 @@ export default function Payment() {
         </NoEnrollmentMessage>
       ) : (
         <>
-          <TicketGenre >
+          <TicketOption apiPath={"modalities"} >
             <h2>Primeiro, escolha sua modalidade de ingresso</h2>
-          </TicketGenre>
-          <TicketGenre >
+          </TicketOption>
+          <TicketOption apiPath={"lodges"}>
             <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
-          </TicketGenre>
+          </TicketOption>
         </>
       )}
     </>
   );
 }
-const TicketGenre = styled.div`
-  display: flex;
-  flex-direction: column;
-  h2 {
-    font-size: 20px;
-    font-weight: 400;
-    color: #8e8e8e;
-    margin-bottom: 17px;
-  }
-  h3 {
-    color: #454545;
-    font-size: 16px;
-    line-height: 22px;
-  }
-  h4 {
-    font-size: 14px;
-    color: #898989;
-  }
-  .optionBox {
-    display: flex;
-    margin-bottom: 44px;
-  }
-`;
 const NoEnrollmentMessage = styled.h1`
   font-size: 20px;
   color: #8e8e8e;

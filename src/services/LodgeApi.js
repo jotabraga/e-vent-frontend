@@ -1,13 +1,8 @@
-import AuthenticatedApi from "./AuthenticatedApi";
 import api from "./api";
 
-export default class Lodge extends AuthenticatedApi {
+export default class Lodge {
   static getLodgeOptions() {
-    const lodgeOptions = api.get("/lodges", {
-      headers: {
-        ...this.getAuthorizationHeader()
-      }
-    });
+    const lodgeOptions = api.get("/lodges");
     return lodgeOptions;
   }
 }
