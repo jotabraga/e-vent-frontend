@@ -4,6 +4,7 @@ import HotelCard from "../../../components/Hotel/HotelCard";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
 import Rooms from "../../../components/Hotel/Rooms";
+import { toast } from "react-toastify";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
@@ -15,7 +16,9 @@ export default function Hotel() {
     result.then((res) => {
       setHotels(res.data);
     });
-    result.catch(() => {}); //fazer o catch com toastify
+    result.catch((err) => {
+      toast(err.response.data.message);
+    });
   }, []);
   useEffect(() => {
     if (hotelData !== null) setIsSelected(true);

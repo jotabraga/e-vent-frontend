@@ -20,12 +20,16 @@ export default function HotelCard({ hotel }) {
       <Property>
         <Title>Tipos de acomodação:</Title>
         <span>
-          {hotel.allRoomsTypes.map((t, i) => (
-            <span key={i}>
-              {t}
-              {i < hotel.allRoomsTypes.length - 1 && ","}{" "}
-            </span>
-          ))}
+          {hotel.allRoomsTypes ? (
+            hotel.allRoomsTypes.map((currentType, index) => (
+              <span key={index}>
+                {currentType}
+                {index < hotel.allRoomsTypes.length - 1 && ","}{" "}
+              </span>
+            ))
+          ) : (
+            <span>Nenhum quarto nesse hotel </span>
+          )}
         </span>
       </Property>
       <Property>
