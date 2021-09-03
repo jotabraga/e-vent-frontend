@@ -8,13 +8,14 @@ export default class EnrollmentApi extends AuthenticatedApi {
         ...this.getAuthorizationHeader()
       }
     });
-  }
+  }  
 
-  getPersonalInformations() {
-    return api.get("/enrollments", {
+  async getPersonalInformations() {
+    const enrollment = await api.get("/enrollments", {
       headers: {
         ...this.getAuthorizationHeader()
       }
     });
+    return enrollment;
   }
 }
