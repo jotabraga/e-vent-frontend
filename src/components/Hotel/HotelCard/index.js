@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import HotelContext from "../../contexts/HotelContext";
+import HotelContext from "../../../contexts/HotelContext";
 
 export default function HotelCard({ hotel }) {
   const { hotelData, setHotelData } = useContext(HotelContext);

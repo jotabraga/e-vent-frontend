@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useApi from "../../../hooks/useApi";
-import HotelCard from "../../../components/HotelCard";
+import HotelCard from "../../../components/Hotel/HotelCard";
 import styled from "styled-components";
+import HotelContext from "../../../contexts/HotelContext";
+import Rooms from "../../../components/Hotel/Rooms";
 
 export default function Hotel() {
+  const { hotelData } = useContext(HotelContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
@@ -13,6 +17,10 @@ export default function Hotel() {
     });
     result.catch(() => {}); //fazer o catch com toastify
   }, []);
+  useEffect(() => {
+    if (hotelData !== null) setIsSelected(true);
+    else setIsSelected(false);
+  }, [hotelData]);
   return (
     <Body>
       <h1>Escolha de hotel e quarto</h1>
@@ -22,6 +30,12 @@ export default function Hotel() {
           <HotelCard key={h.id} hotel={h} />
         ))}
       </HotelOptions>
+      {isSelected && (
+        <>
+          <h2>Ótima pedida! Agora escolha seu quarto:</h2>
+          <Rooms hotel={hotelData} />
+        </>
+      )}
     </Body>
   );
 }
