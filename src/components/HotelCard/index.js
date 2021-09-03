@@ -1,8 +1,20 @@
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import HotelContext from "../../contexts/HotelContext";
 
 export default function HotelCard({ hotel }) {
+  const { hotelData, setHotelData } = useContext(HotelContext);
+  const [isSelected, setIsSelected] = useState(false);
+  useEffect(() => {
+    if (hotelData?.id === hotel.id) setIsSelected(true);
+    else setIsSelected(false);
+  }, [hotelData]);
+  function toggleHotelData() {
+    if (hotelData?.id === hotel.id) setHotelData(null);
+    else setHotelData(hotel);
+  }
   return (
-    <Card>
+    <Card onClick={toggleHotelData} isSelected={isSelected}>
       <img src={hotel.image} alt={hotel.name} />
       <h1>{hotel.name}</h1>
       <Property>
@@ -27,10 +39,10 @@ export default function HotelCard({ hotel }) {
 const Card = styled.div`
   width: 196px;
   height: 264px;
-  background: #f1f1f1;
   border-radius: 10px;
   padding: 15px;
   font-family: "Roboto";
+  background-color: ${(props) => (props.isSelected ? "#FFEED2" : "#f1f1f1")};
   img {
     width: 168px;
     height: 109px;
