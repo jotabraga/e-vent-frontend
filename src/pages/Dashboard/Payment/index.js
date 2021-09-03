@@ -16,8 +16,7 @@ export default function Payment() {
     request.catch((error) => {
       /* eslint-disable-next-line no-console */
       console.log(error);
-
-      toast.error("Não foi possível conectar ao servidor!");
+      toast.error("Não foi possível carregar os dados!");
     });
   }, []);
 
@@ -31,54 +30,17 @@ export default function Payment() {
         </NoEnrollmentMessage>
       ) : (
         <>
-          <TicketGenre>
+          <TicketGenre >
             <h2>Primeiro, escolha sua modalidade de ingresso</h2>
-            <div className="optionBox">
-              <TicketOptions>
-                <h3>Presencial</h3>
-                <h4>R$ 250</h4>
-              </TicketOptions>
-              <TicketOptions>
-                <h3>Online</h3>
-                <h4>R$ 100</h4>
-              </TicketOptions>
-            </div>
           </TicketGenre>
-          <TicketGenre>
+          <TicketGenre >
             <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
-            <div className="optionBox">
-              <TicketOptions>
-                <h3>Sem Hotel</h3>
-                <h4>+R$ 0</h4>
-              </TicketOptions>
-              <TicketOptions>
-                <h3>Com Hotel</h3>
-                <h4>+R$ 350</h4>
-              </TicketOptions>
-            </div>
           </TicketGenre>
         </>
       )}
     </>
   );
 }
-
-const NoEnrollmentMessage = styled.h1`
-  font-size: 20px;
-  color: #8e8e8e;
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 260px;
-  flex-direction: column;
-`;
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
-`;
-
 const TicketGenre = styled.div`
   display: flex;
   flex-direction: column;
@@ -102,16 +64,17 @@ const TicketGenre = styled.div`
     margin-bottom: 44px;
   }
 `;
-
-const TicketOptions = styled.div`
-  width: 145px;
-  height: 145px;
-  border-radius: 20px;
-  border: 1px #cecece solid;
-  margin-left: 35px;
+const NoEnrollmentMessage = styled.h1`
+  font-size: 20px;
+  color: #8e8e8e;
+  width: 100%;
+  height: auto;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   text-align: center;
-  background: ${(props) => props.background || "#FFFFFF"};
+  margin-top: 260px;
+  flex-direction: column;
+`;
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px !important;
 `;
