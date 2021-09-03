@@ -1,10 +1,10 @@
 import styled from "styled-components";
 export default function Options(props) {
-  const { price, type } = props;
+  const { ticket, modality, setModalityTypes } = props;
   return (
-    <StyledCardOption>
-      <h3>{type}</h3>
-      <h4>R$ {price}</h4>
+    <StyledCardOption onClick={() => setModalityTypes(ticket)} background={modality?.type === ticket.type ? "#FFEED2" : "#FFF" }>
+      <h3>{ticket.type}</h3>
+      <h4>R$ {ticket.price}</h4>
     </StyledCardOption>
   );
 }

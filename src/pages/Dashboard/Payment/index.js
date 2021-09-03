@@ -8,6 +8,8 @@ import TicketOption from "./TicketOption";
 export default function Payment() {
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
+  const [presentialType, setPresentialType] = useState(null);
+  const [lodgeOption, setLodgeOption] = useState(null);
 
   useEffect(() => {
     const request = enrollementAPI.getPersonalInformations();
@@ -20,6 +22,11 @@ export default function Payment() {
       toast.error("Não foi possível carregar os dados!");
     });
   }, []);
+  
+  function setModalityTypes(ticket) {
+    setPresentialType(ticket);
+    if(ticket.type === "Online") setLodgeOption(null);
+  }
 
   return (
     <>
@@ -31,12 +38,16 @@ export default function Payment() {
         </NoEnrollmentMessage>
       ) : (
         <>
-          <TicketOption apiPath={"modalities"} >
+          <TicketOption apiPath={"modalities"} modality={presentialType} setModalityTypes={setModalityTypes} >
             <h2>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
-          <TicketOption apiPath={"lodges"}>
-            <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
-          </TicketOption>
+          {presentialType?.type === "Presencial" ? (
+            <TicketOption apiPath={"lodges"} modality={lodgeOption} setModalityTypes={setLodgeOption} >
+              <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
+            </TicketOption>
+          ) : (
+            <></>
+          )}
         </>
       )}
     </>

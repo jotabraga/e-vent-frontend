@@ -8,7 +8,7 @@ import Options from "./Options";
 
 export default function TicketOption(props) {
   const [ticketOptions, setTicketsOptions] = useState(null);
-  const { apiPath } = props;
+  const { apiPath, modality, setModalityTypes } = props;
 
   useEffect(() => {
     let request;
@@ -34,7 +34,7 @@ export default function TicketOption(props) {
       {props.children}
       <div className="optionBox">
         {ticketOptions?.map((t) => (
-          <Options price={t.price} type={t.type} />
+          <Options key={t.id} ticket={t} modality={modality} setModalityTypes={setModalityTypes} />
         ))}
       </div>
     </TicketModality>
