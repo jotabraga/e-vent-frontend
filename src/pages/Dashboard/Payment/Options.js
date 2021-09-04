@@ -18,14 +18,19 @@ export default function Options(props) {
 
     if (type === "Online" || type === "Presencial") {
       if (bookingData?.modality === type) {
-        setBookingData({ ...bookingData, modality: undefined });
+        setBookingData({
+          ...bookingData,
+          modality: undefined,
+          lodge: undefined,
+        });
       } else {
-        setBookingData({ ...bookingData, modality: type });
+        if (type === "Online") {
+          setBookingData({ ...bookingData, modality: type, lodge: undefined });
+        } else {
+          setBookingData({ ...bookingData, modality: type });
+        }
       }
     }
-
-    if (type === "Online")
-      setBookingData({ ...bookingData, modality: type, lodge: undefined });
   }
 
   return (
