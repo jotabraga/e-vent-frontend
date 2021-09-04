@@ -23,6 +23,9 @@ export default function Options(props) {
         setBookingData({ ...bookingData, modality: type });
       }
     }
+
+    if (type === "Online")
+      setBookingData({ ...bookingData, modality: type, lodge: undefined });
   }
 
   return (
@@ -31,7 +34,7 @@ export default function Options(props) {
       isSelected={type === bookingData.lodge || type === bookingData.modality}
     >
       <h3>{ticket.type}</h3>
-      <h4 onClick={() => console.log(bookingData)}>R$ {ticket.price}</h4>
+      <h4>R$ {ticket.price}</h4>
     </StyledCardOption>
   );
 }
