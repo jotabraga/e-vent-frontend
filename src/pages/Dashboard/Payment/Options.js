@@ -9,15 +9,15 @@ export default function Options(props) {
 
   function handleClick() {
     if (type === "Com Hotel" || type === "Sem Hotel") {
-      if (bookingData.lodge === type) {
+      if (bookingData?.lodge === type) {
         setBookingData({ ...bookingData, lodge: undefined });
       } else {
         setBookingData({ ...bookingData, lodge: type });
       }
     }
 
-    if (type === "Online" || type == "Presencial") {
-      if (bookingData.modality === type) {
+    if (type === "Online" || type === "Presencial") {
+      if (bookingData?.modality === type) {
         setBookingData({ ...bookingData, modality: undefined });
       } else {
         setBookingData({ ...bookingData, modality: type });
@@ -31,7 +31,7 @@ export default function Options(props) {
   return (
     <StyledCardOption
       onClick={handleClick}
-      isSelected={type === bookingData.lodge || type === bookingData.modality}
+      isSelected={type === bookingData?.lodge || type === bookingData?.modality}
     >
       <h3>{ticket.type}</h3>
       <h4>R$ {ticket.price}</h4>
