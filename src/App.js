@@ -15,6 +15,7 @@ import EventInfoContext, {
 } from "./contexts/EventInfoContext";
 import UserContext, { UserProvider } from "./contexts/UserContext";
 import { HotelProvider } from "./contexts/HotelContext";
+import { BookingProvider } from "./contexts/BookingContext";
 
 export default function App() {
   return (
@@ -23,33 +24,42 @@ export default function App() {
       <EventInfoProvider>
         <UserProvider>
           <HotelProvider>
-            <Router>
-              <Switch>
-                <ConditionalRoute check={ensureCountdownOngoing} path="/" exact>
-                  <Countdown />
-                </ConditionalRoute>
+            <BookingProvider>
+              <Router>
+                <Switch>
+                  <ConditionalRoute
+                    check={ensureCountdownOngoing}
+                    path="/"
+                    exact
+                  >
+                    <Countdown />
+                  </ConditionalRoute>
 
-                <ConditionalRoute
-                  check={ensureCountdownOver}
-                  path="/enroll"
-                  exact
-                >
-                  <Enroll />
-                </ConditionalRoute>
+                  <ConditionalRoute
+                    check={ensureCountdownOver}
+                    path="/enroll"
+                    exact
+                  >
+                    <Enroll />
+                  </ConditionalRoute>
 
-                <ConditionalRoute
-                  check={ensureCountdownOver}
-                  path="/sign-in"
-                  exact
-                >
-                  <SignIn />
-                </ConditionalRoute>
+                  <ConditionalRoute
+                    check={ensureCountdownOver}
+                    path="/sign-in"
+                    exact
+                  >
+                    <SignIn />
+                  </ConditionalRoute>
 
-                <ConditionalRoute check={ensureAuthenticated} path="/dashboard">
-                  <Dashboard />
-                </ConditionalRoute>
-              </Switch>
-            </Router>
+                  <ConditionalRoute
+                    check={ensureAuthenticated}
+                    path="/dashboard"
+                  >
+                    <Dashboard />
+                  </ConditionalRoute>
+                </Switch>
+              </Router>
+            </BookingProvider>
           </HotelProvider>
         </UserProvider>
       </EventInfoProvider>

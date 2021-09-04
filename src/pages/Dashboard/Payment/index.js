@@ -1,15 +1,15 @@
 import Typography from "@material-ui/core/Typography";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
 import TicketOption from "./TicketOption";
+import BookingContext from "../../../contexts/BookingContext";
 
 export default function Payment() {
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
-  const [presentialType, setPresentialType] = useState(null);
-  const [lodgeOption, setLodgeOption] = useState(null);
+  const { bookingData } = useContext(BookingContext);
 
   useEffect(() => {
     const request = enrollementAPI.getPersonalInformations();
@@ -23,11 +23,6 @@ export default function Payment() {
     });
   }, []);
 
-  function setModalityTypes(ticket) {
-    setPresentialType(ticket);
-    if (ticket.type === "Online") setLodgeOption(null);
-  }
-
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -38,25 +33,15 @@ export default function Payment() {
         </NoEnrollmentMessage>
       ) : (
         <>
-          <TicketOption
-            apiPath={"modalities"}
-            modality={presentialType}
-            setModalityTypes={setModalityTypes}
-          >
-            <h2 onClick={() => console.log(userEnrollment)}>
-              Primeiro, escolha sua modalidade de ingresso
-            </h2>
+          <TicketOption apiPath={"modalities"}>
+            <h2>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
-          {presentialType?.type === "Presencial" ? (
-            <TicketOption
-              apiPath={"lodges"}
-              modality={lodgeOption}
-              setModalityTypes={setLodgeOption}
-            >
+          {bookingData.modality === "Presencial" ? (
+            <TicketOption apiPath={"lodges"}>
               <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
             </TicketOption>
           ) : (
-            <></>
+            ""
           )}
         </>
       )}
@@ -71,7 +56,7 @@ const NoEnrollmentMessage = styled.h1`
   display: flex;
   justify-content: center;
   text-align: center;
-  margin-top: 260px;
+  margin-top: 200px;
   flex-direction: column;
 `;
 const StyledTypography = styled(Typography)`
