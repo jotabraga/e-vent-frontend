@@ -4,6 +4,8 @@ import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
 import TicketOption from "./TicketOption";
+import OrderButton from "../../../components/Payment/OrderButton";
+import ChoiceSession from "../../../components/Payment/ChoiceSession";
 
 export default function Payment() {
   const [userEnrollment, setUserenrollment] = useState(null);
@@ -22,10 +24,10 @@ export default function Payment() {
       toast.error("Não foi possível carregar os dados!");
     });
   }, []);
-  
+
   function setModalityTypes(ticket) {
     setPresentialType(ticket);
-    if(ticket.type === "Online") setLodgeOption(null);
+    if (ticket.type === "Online") setLodgeOption(null);
   }
 
   return (
@@ -48,6 +50,38 @@ export default function Payment() {
           ) : (
             <></>
           )}
+        </>
+      )}
+      {presentialType?.type === "Online" ? (
+        <>
+          <ChoiceSession>
+            <h2>
+              Fechado! O total ficou em R$ {presentialType?.price}. Agora é só
+              confirmar:
+            </h2>
+          </ChoiceSession>
+          <OrderButton>
+            <h2>RESERVAR INGRESSO</h2>
+          </OrderButton>
+        </>
+      ) : (
+        <>
+          {lodgeOption?.type === "Com Hotel" ||
+          lodgeOption?.type === "Sem Hotel" ? (
+              <>
+                <ChoiceSession>
+                  <h2>
+                  Fechado! O total ficou em R$ {presentialType?.price + lodgeOption?.price}. Agora é
+                  só confirmar:
+                  </h2>
+                </ChoiceSession>
+                <OrderButton>
+                  <h2>RESERVAR INGRESSO</h2>
+                </OrderButton>
+              </>
+            ) : (
+              <></>
+            )}
         </>
       )}
     </>
