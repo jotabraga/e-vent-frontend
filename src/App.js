@@ -15,6 +15,7 @@ import EventInfoContext, {
 } from "./contexts/EventInfoContext";
 import UserContext, { UserProvider } from "./contexts/UserContext";
 import { HotelProvider } from "./contexts/HotelContext";
+import { BookingProvider } from "./contexts/BookingContext";
 
 export default function App() {
   return (

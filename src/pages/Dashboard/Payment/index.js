@@ -1,17 +1,17 @@
 import Typography from "@material-ui/core/Typography";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
 import TicketOption from "./TicketOption";
+import BookingContext from "../../../contexts/BookingContext";
 import OrderButton from "../../../components/Payment/OrderButton";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
 
 export default function Payment() {
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
-  const [presentialType, setPresentialType] = useState(null);
-  const [lodgeOption, setLodgeOption] = useState(null);
+  const { bookingData } = useContext(BookingContext);
 
   useEffect(() => {
     const request = enrollementAPI.getPersonalInformations();
@@ -33,22 +33,22 @@ export default function Payment() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      {userEnrollment === null || userEnrollment === undefined ? (
+      {!userEnrollment ? (
         <NoEnrollmentMessage>
           Você precisa completar sua inscrição antes <br /> de prosseguir pra
           escolha de ingresso
         </NoEnrollmentMessage>
       ) : (
         <>
-          <TicketOption apiPath={"modalities"} modality={presentialType} setModalityTypes={setModalityTypes} >
+          <TicketOption apiPath={"modalities"}>
             <h2>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
-          {presentialType?.type === "Presencial" ? (
-            <TicketOption apiPath={"lodges"} modality={lodgeOption} setModalityTypes={setLodgeOption} >
+          {bookingData.modality === "Presencial" ? (
+            <TicketOption apiPath={"lodges"}>
               <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
             </TicketOption>
           ) : (
-            <></>
+            ""
           )}
         </>
       )}
@@ -95,7 +95,7 @@ const NoEnrollmentMessage = styled.h1`
   display: flex;
   justify-content: center;
   text-align: center;
-  margin-top: 260px;
+  margin-top: 200px;
   flex-direction: column;
 `;
 const StyledTypography = styled(Typography)`

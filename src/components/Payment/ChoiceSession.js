@@ -23,6 +23,6 @@ const NewSession = styled.div`
   }
   .optionBox {
     display: flex;
-    margin-bottom: 38px;
+    margin-bottom: 44px;
   }
 `;
