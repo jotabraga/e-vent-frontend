@@ -4,32 +4,37 @@ import { useContext } from "react";
 export default function Options(props) {
   const { ticket } = props;
   const { bookingData, setBookingData } = useContext(BookingContext);
-  const type = ticket.type;
+  const { type } = ticket;
 
   function handleClick() {
     if (type === "Com Hotel" || type === "Sem Hotel") {
-      if (bookingData.lodge === type) {
+      if (bookingData?.lodge === type) {
         setBookingData({ ...bookingData, lodge: undefined });
       } else {
         setBookingData({ ...bookingData, lodge: type });
       }
     }
-
-    if (type === "Online" || type == "Presencial") {
-      if (bookingData.modality === type) {
-        setBookingData({ ...bookingData, modality: undefined });
+    if (type === "Online" || type === "Presencial") {
+      if (bookingData?.modality === type) {
+        setBookingData({
+          ...bookingData,
+          modality: undefined,
+          lodge: undefined,
+        });
       } else {
-        setBookingData({ ...bookingData, modality: type });
+        setBookingData({ ...bookingData, modality: type, lodge: undefined });
       }
     }
-    
   }
+
   return (
-    <StyledCardOption onClick={handleClick} isSelected={type === bookingData.lodge || type === bookingData.modality} >
+    <StyledCardOption
+      onClick={handleClick}
+      isSelected={type === bookingData?.lodge || type === bookingData?.modality}
+    >
       <h3>{ticket.type}</h3>
       <h4 onClick={() => console.log(bookingData)}>R$ {ticket.price}</h4>
     </StyledCardOption>
-  );
   );
 }
 const StyledCardOption = styled.div`
@@ -43,4 +48,5 @@ const StyledCardOption = styled.div`
   justify-content: center;
   text-align: center;
   background: ${(props) => (props.isSelected ? "#FFEED2" : "#FFFFFF")};
+  cursor: pointer;
 `;
