@@ -7,7 +7,7 @@ import Room from "../../../components/Hotel/Room";
 import { toast } from "react-toastify";
 
 export default function Hotel() {
-  const { hotelData } = useContext(HotelContext);
+  const { hotelData, setHotelData } = useContext(HotelContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
@@ -21,8 +21,9 @@ export default function Hotel() {
     });
   }, []);
   useEffect(() => {
-    if (hotelData !== null) setIsSelected(true);
-    else setIsSelected(false);
+    if (hotelData !== null) {
+      setIsSelected(true);
+    } else setIsSelected(false);
   }, [hotelData]);
   return (
     <Body>
@@ -30,7 +31,7 @@ export default function Hotel() {
       <h2>Primeiro, escolha seu hotel</h2>
       <HotelOptions>
         {hotels.map((h) => (
-          <HotelCard key={h.id} hotel={h} />
+          <HotelCard key={h.id} hotelCard={h} />
         ))}
       </HotelOptions>
       {isSelected && (

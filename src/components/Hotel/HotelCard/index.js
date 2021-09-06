@@ -1,30 +1,40 @@
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
+import useApi from "../../../hooks/useApi";
 
-export default function HotelCard({ hotel }) {
+export default function HotelCard({ hotelCard }) {
   const { hotelData, setHotelData } = useContext(HotelContext);
+  const { hotel } = useApi();
   const [isSelected, setIsSelected] = useState(false);
   useEffect(() => {
-    if (hotelData?.id === hotel.id) setIsSelected(true);
+    if (hotelData?.id === hotelCard.id) setIsSelected(true);
     else setIsSelected(false);
   }, [hotelData]);
   function toggleHotelData() {
-    if (hotelData?.id === hotel.id) setHotelData(null);
-    else setHotelData(hotel);
+    const result = hotel.GetHotelData(hotelCard.id);
+    result.then((res) => {
+      setHotelData(res.data);
+    });
+    result.catch((err) => {
+      toast(err.response.data.message);
+    });
+    if (hotelData?.id === hotelCard.id) setHotelData(null);
+    else setHotelData(hotelCard);
   }
   return (
     <Card onClick={toggleHotelData} isSelected={isSelected}>
-      <img src={hotel.image} alt={hotel.name} />
-      <h1>{hotel.name}</h1>
+      <img src={hotelCard.image} alt={hotelCard.name} />
+      <h1>{hotelCard.name}</h1>
       <Property>
         <Title>Tipos de acomodação:</Title>
         <span>
-          {hotel.allRoomsTypes ? (
-            hotel.allRoomsTypes.map((currentType, index) => (
+          {hotelCard.allRoomsTypes ? (
+            hotelCard.allRoomsTypes.map((currentType, index) => (
               <span key={index}>
                 {currentType}
-                {index < hotel.allRoomsTypes.length - 1 && ","}{" "}
+                {index < hotelCard.allRoomsTypes.length - 1 && ","}{" "}
               </span>
             ))
           ) : (
@@ -34,7 +44,7 @@ export default function HotelCard({ hotel }) {
       </Property>
       <Property>
         <Title>Vagas disponíveis:</Title>
-        <span>{hotel.totalvacancies}</span>
+        <span>{hotelCard.totalvacancies}</span>
       </Property>
     </Card>
   );
