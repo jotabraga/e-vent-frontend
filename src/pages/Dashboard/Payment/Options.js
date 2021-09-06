@@ -5,7 +5,7 @@ import { useContext } from "react";
 export default function Options(props) {
   const { ticket } = props;
   const { bookingData, setBookingData } = useContext(BookingContext);
-  const type = ticket.type;
+  const { type } = ticket;
 
   function handleClick() {
     if (type === "Com Hotel" || type === "Sem Hotel") {
@@ -50,4 +50,5 @@ const StyledCardOption = styled.div`
   justify-content: center;
   text-align: center;
   background: ${(props) => (props.isSelected ? "#FFEED2" : "#FFFFFF")};
+  cursor: pointer;
 `;
