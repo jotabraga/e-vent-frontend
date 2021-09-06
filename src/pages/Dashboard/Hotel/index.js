@@ -7,7 +7,7 @@ import Room from "../../../components/Hotel/Room";
 import { toast } from "react-toastify";
 
 export default function Hotel() {
-  const { hotelData, setHotelData } = useContext(HotelContext);
+  const { hotelData } = useContext(HotelContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
@@ -38,8 +38,8 @@ export default function Hotel() {
         <>
           <h2>Ótima pedida! Agora escolha seu quarto:</h2>
           <Rooms>
-            {hotelData.rooms.map((room) => (
-              <Room room={room} />
+            {hotelData?.rooms.map((room) => (
+              <Room key={room.id} room={room} />
             ))}
           </Rooms>
         </>

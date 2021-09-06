@@ -13,15 +13,16 @@ export default function HotelCard({ hotelCard }) {
     else setIsSelected(false);
   }, [hotelData]);
   function toggleHotelData() {
-    const result = hotel.GetHotelData(hotelCard.id);
-    result.then((res) => {
-      setHotelData(res.data);
-    });
-    result.catch((err) => {
-      toast(err.response.data.message);
-    });
     if (hotelData?.id === hotelCard.id) setHotelData(null);
-    else setHotelData(hotelCard);
+    else {
+      const result = hotel.GetHotelData(hotelCard.id);
+      result.then((res) => {
+        setHotelData(res.data);
+      });
+      result.catch((err) => {
+        toast(err.response.data.message);
+      });
+    }
   }
   return (
     <Card onClick={toggleHotelData} isSelected={isSelected}>
