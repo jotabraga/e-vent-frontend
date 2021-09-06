@@ -17,7 +17,8 @@ export default function HotelCard({ hotelCard }) {
     else {
       const result = hotel.GetHotelData(hotelCard.id);
       result.then((res) => {
-        setHotelData(res.data);
+        const hotel = res.data;
+        setHotelData({ ...hotel, RoomSelected: null });
       });
       result.catch((err) => {
         toast(err.response.data.message);
