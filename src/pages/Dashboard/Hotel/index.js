@@ -3,7 +3,7 @@ import useApi from "../../../hooks/useApi";
 import HotelCard from "../../../components/Hotel/HotelCard";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
-import Rooms from "../../../components/Hotel/Rooms";
+import Room from "../../../components/Hotel/Room";
 import { toast } from "react-toastify";
 
 export default function Hotel() {
@@ -36,7 +36,11 @@ export default function Hotel() {
       {isSelected && (
         <>
           <h2>Ótima pedida! Agora escolha seu quarto:</h2>
-          <Rooms hotel={hotelData} />
+          <Rooms>
+            {hotelData.rooms.map((room) => (
+              <Room room={room} />
+            ))}
+          </Rooms>
         </>
       )}
     </Body>
@@ -45,6 +49,7 @@ export default function Hotel() {
 const HotelOptions = styled.div`
   display: flex;
   gap: 20px;
+  margin-bottom: 50px;
 `;
 const Body = styled.div`
   font-family: "Roboto";
@@ -60,4 +65,9 @@ const Body = styled.div`
     line-height: 23px;
     margin-bottom: 18px;
   }
+`;
+const Rooms = styled.div`
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 `;
