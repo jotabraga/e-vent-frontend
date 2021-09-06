@@ -11,7 +11,7 @@ export default function Options(props) {
       if (bookingData?.lodge === type) {
         setBookingData({ ...bookingData, lodge: undefined });
       } else {
-        setBookingData({ ...bookingData, lodge: type });
+        setBookingData({ ...bookingData, lodge: type, lodgePrice: ticket.price });
       }
     }
     if (type === "Online" || type === "Presencial") {
@@ -22,18 +22,15 @@ export default function Options(props) {
           lodge: undefined,
         });
       } else {
-        setBookingData({ ...bookingData, modality: type, lodge: undefined });
+        setBookingData({ ...bookingData, modality: type, lodge: undefined, modalityPrice: ticket.price });
       }
     }
   }
 
   return (
-    <StyledCardOption
-      onClick={handleClick}
-      isSelected={type === bookingData?.lodge || type === bookingData?.modality}
-    >
+    <StyledCardOption onClick={handleClick} isSelected={type === bookingData?.lodge || type === bookingData?.modality} >
       <h3>{ticket.type}</h3>
-      <h4 onClick={() => console.log(bookingData)}>R$ {ticket.price}</h4>
+      <h4>R$ {ticket.price}</h4>
     </StyledCardOption>
   );
 }

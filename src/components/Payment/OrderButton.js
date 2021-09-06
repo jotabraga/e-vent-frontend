@@ -7,7 +7,7 @@ export default function OrderButton(props) {
   );
 }
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;

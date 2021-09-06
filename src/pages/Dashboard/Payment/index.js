@@ -55,11 +55,11 @@ export default function Payment() {
         <>
           <ChoiceSession>
             <h2>
-              Fechado! O total ficou em R$ {bookingData?.price}. Agora é só
+              Fechado! O total ficou em R$ {bookingData?.modalityPrice}. Agora é só
               confirmar:
             </h2>
           </ChoiceSession>
-          <OrderButton>
+          <OrderButton onClick={() => alert("clicou")} >
             <h2>RESERVAR INGRESSO</h2>
           </OrderButton>
         </>
@@ -70,11 +70,11 @@ export default function Payment() {
               <>
                 <ChoiceSession>
                   <h2>
-                  Fechado! O total ficou em R$ {bookingData?.price + bookingData?.price}. Agora é
+                  Fechado! O total ficou em R$ {bookingData?.modalityPrice + bookingData?.lodgePrice}. Agora é
                   só confirmar:
                   </h2>
                 </ChoiceSession>
-                <OrderButton>
+                <OrderButton onClick={() => alert("clicou")} >
                   <h2>RESERVAR INGRESSO</h2>
                 </OrderButton>
               </>

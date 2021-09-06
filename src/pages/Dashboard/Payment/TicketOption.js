@@ -33,8 +33,8 @@ export default function TicketOption(props) {
     <ChoiceSession>
       {props.children}
       <div className="optionBox">
-        {ticketOptions?.map((t) => (
-          <Options key={t.id} ticket={t} />
+        {ticketOptions?.map((ticket) => (
+          <Options key={ticket.id} ticket={ticket} />
         ))}
       </div>
     </ChoiceSession>
