@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IoPersonOutline, IoPerson } from "react-icons/io5";
 import { useContext, useEffect, useState } from "react";
-import HotelContext from "../../../contexts/HotelContext";
+import HotelContext from "../../../../contexts/HotelContext";
 import populateRoomArray from "./populateRoomArray";
 export default function Room({ room }) {
   const { hotelData, setHotelData } = useContext(HotelContext);

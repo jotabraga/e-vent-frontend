@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import useApi from "../../../hooks/useApi";
-import HotelCard from "../../../components/Hotel/HotelCard";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
-import Room from "../../../components/Hotel/Room";
 import { toast } from "react-toastify";
+import RoomOptions from "../../../components/Hotel/RoomOptions";
+import HotelOptions from "../../../components/Hotel/HotelOptions";
+import Button from "../../../components/Form/Button";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
@@ -29,29 +30,12 @@ export default function Hotel() {
     <Body>
       <h1>Escolha de hotel e quarto</h1>
       <h2>Primeiro, escolha seu hotel</h2>
-      <HotelOptions>
-        {hotels.map((h) => (
-          <HotelCard key={h.id} hotelCard={h} />
-        ))}
-      </HotelOptions>
-      {isSelected && (
-        <>
-          <h2>Ótima pedida! Agora escolha seu quarto:</h2>
-          <Rooms>
-            {hotelData?.rooms.map((room) => (
-              <Room key={room.id} room={room} />
-            ))}
-          </Rooms>
-        </>
-      )}
+      <HotelOptions hotels={hotels} />
+      {isSelected && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && <RoomButton>RESERVAR QUARTO</RoomButton>}
     </Body>
   );
 }
-const HotelOptions = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-bottom: 50px;
-`;
 const Body = styled.div`
   font-family: "Roboto";
   & > h1 {
@@ -67,8 +51,8 @@ const Body = styled.div`
     margin-bottom: 18px;
   }
 `;
-const Rooms = styled.div`
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+const RoomButton = styled(Button)`
+  font-family: "Roboto" !important;
+  margin-top: 40px !important;
+  color: #000 !important;
 `;

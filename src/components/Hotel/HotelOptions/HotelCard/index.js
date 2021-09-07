@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import HotelContext from "../../../contexts/HotelContext";
-import useApi from "../../../hooks/useApi";
+import HotelContext from "../../../../contexts/HotelContext";
+import useApi from "../../../../hooks/useApi";
 
 export default function HotelCard({ hotelCard }) {
   const { hotelData, setHotelData } = useContext(HotelContext);
