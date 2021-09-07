@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import BookingContext from "../../../contexts/BookingContext";
 import { useContext } from "react";
-import handleUserTicketChoice from "./HandleUserChoice";
+import handleUserTicketChoice from "./Helpers/HandleUserChoice";
 export default function Options(props) {
   const { ticket } = props;
-  const { bookingData, setBookingData } = useContext(BookingContext);
   const { type } = ticket;
+  const { bookingData, setBookingData } = useContext(BookingContext);
 
   return (
     <StyledCardOption onClick={() => handleUserTicketChoice(ticket, bookingData, setBookingData)} isSelected={type === bookingData?.lodge?.type || type === bookingData?.modality?.type } >
-      <h3>{ticket.type}</h3>
+      <h3>{type}</h3>
       <h4>R$ {ticket.price}</h4>
     </StyledCardOption>
   );

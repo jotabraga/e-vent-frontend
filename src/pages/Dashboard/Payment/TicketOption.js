@@ -23,9 +23,6 @@ export default function TicketOption(props) {
       setTicketsOptions(response.data);
     });
     request.catch((error) => {
-      /* eslint-disable-next-line no-console */
-      console.log(error);
-
       toast.error("Não foi possível carregar os dados!");
     });
   }, [apiPath]);

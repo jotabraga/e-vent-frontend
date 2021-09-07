@@ -9,9 +9,13 @@ import OrderButton from "../../../components/Payment/OrderButton";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
 import Loading from "../../../components/Loading/";
 import BookingApi from "../../../services/BookingApi";
+import getBookingPrice from "./Helpers/getBookingPrice";
+import getBookingInfo from "./Helpers/getBookingInfo";
+import Loader from "react-loader-spinner";
 
 export default function Payment() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSendingInfo, setIsSendingInfo] = useState(false);
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
   const bookingApi = new BookingApi();
@@ -24,34 +28,22 @@ export default function Payment() {
       setIsLoading(false);
     });
     request.catch((error) => {
-      /* eslint-disable-next-line no-console */
-      console.log(error);
       toast.error("Não foi possível carregar os dados!");
     });
   }, []);
 
   function saveBooking() {
-    const bookingUserInformation = getBookingInfo();
-    bookingApi.confirmBooking(bookingUserInformation);               
-  }
-
-  function getBookingInfo() {
-    const { modality, lodge } = bookingData;
-    const modalityId = modality.id;
-    const lodgeId = lodge?.id;
-    const value = getBookingPrice();
-    const bookingInfo = { 
-      modalityId, 
-      lodgeId,
-      value
-    };
-    return bookingInfo;
-  }
-
-  function getBookingPrice() {
-    const { modality, lodge } = bookingData;
-    if (lodge === undefined) return modality.price;
-    return modality.price + lodge.price;
+    setIsSendingInfo(true);
+    const bookingUserInformation = getBookingInfo(bookingData);
+    const request = bookingApi.confirmBooking(bookingUserInformation);
+    request.then(() => {
+      setIsSendingInfo(false);
+      toast.success("Sua reserva foi salva com sucesso!");
+    });
+    request.catch((error) => {
+      setIsSendingInfo(false);
+      toast.error(error.response?.data?.message);
+    });               
   }
 
   return (
@@ -75,40 +67,27 @@ export default function Payment() {
             ""
           )}
         </CardsSection>
-      </Content>
-
-      {bookingData?.modality?.type === "Online" ? (
-        <>
-          <ChoiceSession>
+        {bookingData?.modality?.type === "Online" || 
+        bookingData?.lodge?.type === "Com Hotel" || 
+        bookingData?.lodge?.type === "Sem Hotel" ?
+          (<ChoiceSession>
             <h2>
-              Fechado! O total ficou em R$ { bookingData?.modality?.price }. Agora é só
+              Fechado! O total ficou em R$ { getBookingPrice(bookingData) }. Agora é só
               confirmar:
             </h2>
-          </ChoiceSession>
-          <OrderButton onClick={() => saveBooking()} >
-            <h2>RESERVAR INGRESSO</h2>
-          </OrderButton>
-        </>
-      ) : (
-        <>
-          {bookingData?.lodge?.type === "Com Hotel" || bookingData?.lodge?.type === "Sem Hotel" ? 
-            (
-              <>
-                <ChoiceSession>
-                  <h2>
-                  Fechado! O total ficou em R$ { bookingData?.modality?.price + bookingData?.lodge?.price }. Agora é
-                  só confirmar:
-                  </h2>
-                </ChoiceSession>
-                <OrderButton onClick={() => saveBooking()} >
-                  <h2>RESERVAR INGRESSO</h2>
-                </OrderButton>
-              </>
-            ) : (
-              <></>
-            )}
-        </>
-      )} 
+            <OrderButton disabled={isSendingInfo} onClick={() => saveBooking()} >
+              <Loader
+                visible={isSendingInfo}
+                type="ThreeDots"
+                color="#111"
+                height={50}
+                width={50}
+              />
+              {isSendingInfo ? "": "RESERVAR INGRESSO"}
+            </OrderButton>
+          </ChoiceSession>)
+          :""}
+      </Content>
     </>  
   );
 }
