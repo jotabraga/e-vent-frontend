@@ -8,11 +8,13 @@ import BookingContext from "../../../contexts/BookingContext";
 import OrderButton from "../../../components/Payment/OrderButton";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
 import Loading from "../../../components/Loading/";
+import BookingApi from "../../../services/BookingApi";
 
 export default function Payment() {
   const [isLoading, setIsLoading] = useState(true);
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
+  const bookingApi = new BookingApi();
   const { bookingData } = useContext(BookingContext);
 
   useEffect(() => {
@@ -28,6 +30,30 @@ export default function Payment() {
     });
   }, []);
 
+  function saveBooking() {
+    const bookingUserInformation = getBookingInfo();
+    bookingApi.confirmBooking(bookingUserInformation);               
+  }
+
+  function getBookingInfo() {
+    const { modality, lodge } = bookingData;
+    const modalityId = modality.id;
+    const lodgeId = lodge?.id;
+    const value = getBookingPrice();
+    const bookingInfo = { 
+      modalityId, 
+      lodgeId,
+      value
+    };
+    return bookingInfo;
+  }
+
+  function getBookingPrice() {
+    const { modality, lodge } = bookingData;
+    if (lodge === undefined) return modality.price;
+    return modality.price + lodge.price;
+  }
+
   return (
     <>
       <Loading isLoading={isLoading} className="loading" />
@@ -41,7 +67,7 @@ export default function Payment() {
           <TicketOption apiPath={"modalities"}>
             <h2>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
-          {bookingData?.modality === "Presencial" ? (
+          {bookingData?.modality?.type === "Presencial" ? (
             <TicketOption apiPath={"lodges"}>
               <h2>Ótimo! Agora escolha sua modalidade de hospedagem</h2>
             </TicketOption>
@@ -51,30 +77,30 @@ export default function Payment() {
         </CardsSection>
       </Content>
 
-      {bookingData?.modality === "Online" ? (
+      {bookingData?.modality?.type === "Online" ? (
         <>
           <ChoiceSession>
             <h2>
-              Fechado! O total ficou em R$ {bookingData?.modalityPrice}. Agora é só
+              Fechado! O total ficou em R$ { bookingData?.modality?.price }. Agora é só
               confirmar:
             </h2>
           </ChoiceSession>
-          <OrderButton onClick={() => alert("clicou")} >
+          <OrderButton onClick={() => saveBooking()} >
             <h2>RESERVAR INGRESSO</h2>
           </OrderButton>
         </>
       ) : (
         <>
-          {bookingData?.lodge === "Com Hotel" ||
-          bookingData?.lodge === "Sem Hotel" ? (
+          {bookingData?.lodge?.type === "Com Hotel" || bookingData?.lodge?.type === "Sem Hotel" ? 
+            (
               <>
                 <ChoiceSession>
                   <h2>
-                  Fechado! O total ficou em R$ {bookingData?.modalityPrice + bookingData?.lodgePrice}. Agora é
+                  Fechado! O total ficou em R$ { bookingData?.modality?.price + bookingData?.lodge?.price }. Agora é
                   só confirmar:
                   </h2>
                 </ChoiceSession>
-                <OrderButton onClick={() => alert("clicou")} >
+                <OrderButton onClick={() => saveBooking()} >
                   <h2>RESERVAR INGRESSO</h2>
                 </OrderButton>
               </>

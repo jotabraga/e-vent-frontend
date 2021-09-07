@@ -1,13 +1,6 @@
 import styled from "styled-components";
-export default function OrderButton(props) {
-  return (
-    <StyledButton>
-      {props.children}
-    </StyledButton>
-  );
-}
 
-const StyledButton = styled.button`
+const OrderButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,9 +11,11 @@ const StyledButton = styled.button`
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   align-itens: center;
   margin-top: 17px;
+  border: none;
   h2 {
     font-size: 13px;
     color: #000;
     font-weight: 400;
-  }
-`;
+  }`;
+
+export default OrderButton;
