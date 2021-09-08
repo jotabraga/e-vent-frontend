@@ -24,5 +24,6 @@ const NewSession = styled.div`
   .optionBox {
     display: flex;
     margin-bottom: 44px;
+    gap: 35px;
   }
 `;

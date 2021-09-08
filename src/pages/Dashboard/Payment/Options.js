@@ -19,7 +19,6 @@ const StyledCardOption = styled.div`
   height: 145px;
   border-radius: 20px;
   border: 1px #cecece solid;
-  margin-right: 35px;
   display: flex;
   flex-direction: column;
   justify-content: center;
