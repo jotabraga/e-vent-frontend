@@ -9,4 +9,12 @@ export default class BookingApi extends AuthenticatedApi {
       },
     });
   }
+
+  async getBookingInfo() {
+    return await api.get("/bookings", {
+      headers: {
+        ...this.getAuthorizationHeader(),
+      },
+    });
+  }
 }

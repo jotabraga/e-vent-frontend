@@ -7,19 +7,20 @@ import TicketOption from "./TicketOption";
 import BookingContext from "../../../contexts/BookingContext";
 import OrderButton from "../../../components/Payment/OrderButton";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
-import Loading from "../../../components/Loading/";
+import Loading from "../../../components/Loading";
 import BookingApi from "../../../services/BookingApi";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import getBookingInfo from "./Helpers/getBookingInfo";
 import Loader from "react-loader-spinner";
 
-export default function Payment() {
+export default function Booking(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [isSendingInfo, setIsSendingInfo] = useState(false);
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
   const bookingApi = new BookingApi();
   const { bookingData } = useContext(BookingContext);
+  const { setIsBooked } = props;
 
   useEffect(() => {
     const request = enrollementAPI.getPersonalInformations();
@@ -33,12 +34,16 @@ export default function Payment() {
   }, []);
 
   function saveBooking() {
+    const isAlreadyBooked = bookingApi.getBookingInfo();
+    if (isAlreadyBooked) return setIsBooked(true);
+    
     setIsSendingInfo(true);
     const bookingUserInformation = getBookingInfo(bookingData);
     const request = bookingApi.confirmBooking(bookingUserInformation);
     request.then(() => {
       setIsSendingInfo(false);
       toast.success("Sua reserva foi salva com sucesso!");
+      setIsBooked(true);
     });
     request.catch((error) => {
       setIsSendingInfo(false);
