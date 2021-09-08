@@ -31,7 +31,7 @@ export default function Activities() {
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
         <NoEnrollmentMessage show={!userEnrollment}>
           Você precisa completar sua inscrição antes <br /> de prosseguir pra
-          escolha de ingresso
+          escolha de atividades
         </NoEnrollmentMessage>
       </Container>
     </>
