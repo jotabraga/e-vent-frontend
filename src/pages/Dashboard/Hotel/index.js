@@ -5,12 +5,15 @@ import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
 import Rooms from "../../../components/Hotel/Rooms";
 import { toast } from "react-toastify";
+import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
+  const [review, setReview] = useState(true);
+
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
@@ -20,28 +23,37 @@ export default function Hotel() {
       toast(err.response.data.message);
     });
   }, []);
+
   useEffect(() => {
     if (hotelData !== null) setIsSelected(true);
     else setIsSelected(false);
   }, [hotelData]);
+
   return (
     <Body>
       <h1>Escolha de hotel e quarto</h1>
-      <h2>Primeiro, escolha seu hotel</h2>
-      <HotelOptions>
-        {hotels.map((h) => (
-          <HotelCard key={h.id} hotel={h} />
-        ))}
-      </HotelOptions>
-      {isSelected && (
+      { review && isSelected
+        ? <ReservationReview hotel={hotelData}/>
+        : 
+        <>
+          <h2>Primeiro, escolha seu hotel</h2>
+          <HotelOptions>
+            {hotels.map((h) => (
+              <HotelCard key={h.id} hotel={h} />
+            ))}
+          </HotelOptions>
+        </>
+      }
+      {/* {isSelected && (
         <>
           <h2>Ótima pedida! Agora escolha seu quarto:</h2>
           <Rooms hotel={hotelData} />
         </>
-      )}
+      )} */}
     </Body>
   );
 }
+
 const HotelOptions = styled.div`
   display: flex;
   gap: 20px;
