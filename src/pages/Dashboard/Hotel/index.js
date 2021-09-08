@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import useApi from "../../../hooks/useApi";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
@@ -12,6 +12,7 @@ export default function Hotel() {
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
+  const hotelRef = useRef();
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
@@ -26,16 +27,31 @@ export default function Hotel() {
       setIsSelected(true);
     } else setIsSelected(false);
   }, [hotelData]);
+  function makeReservation() {
+    const result = hotel.makeHotelReservartion(
+      hotelData.id,
+      hotelData.roomSelected.id
+    );
+    result.then(() => {
+      toast("Hotel reserved");
+    });
+    result.catch((err) => {
+      toast(err.response.data.message);
+    });
+  }
   return (
-    <Body>
+    <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
       <h2>Primeiro, escolha seu hotel</h2>
       <HotelOptions hotels={hotels} />
       {isSelected && <RoomOptions hotelData={hotelData} />}
-      {hotelData?.roomSelected && <RoomButton>RESERVAR QUARTO</RoomButton>}
+      {hotelData?.roomSelected && (
+        <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
+      )}
     </Body>
   );
 }
+
 const Body = styled.div`
   font-family: "Roboto";
   & > h1 {

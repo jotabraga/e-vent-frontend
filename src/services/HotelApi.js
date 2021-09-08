@@ -17,4 +17,16 @@ export default class HotelApi extends AuthenticatedApi {
       },
     });
   }
+
+  async makeHotelReservartion(hotelId, roomId) {
+    return await api.post(
+      `/hotels/${hotelId}/rooms/${roomId}`,
+      {},
+      {
+        headers: {
+          ...this.getAuthorizationHeader(),
+        },
+      }
+    );
+  }
 }
