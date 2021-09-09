@@ -4,18 +4,39 @@ import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
 import Typography from "@material-ui/core/Typography";
 import EnrollmentApi from "../../../services/EnrollmentApi";
+import BookingContext from "../../../contexts/BookingContext";
+import populateMessageText from "./utils/populateMessageText";
+
+import { Message } from "./styles";
 
 export default function Activities() {
+  const { bookingData } = useContext(BookingContext);
+
   const [isLoading, setIsLoading] = useState(true);
-  const [userEnrollment, setUserEnrollment] = useState(null);
+
+  const [isEnroll, setIsEnroll] = useState(null);
+  const [isPaid, setIsPaid] = useState(bookingData?.isPaid.type);
+  const [isOnline, setIsOnline] = useState(
+    bookingData?.modality.type === "Online"
+  );
+
+  const [messageText, setMessageText] = useState(null);
+  const [showMessage, setShowMessage] = useState(true);
   const enrollmentAPI = new EnrollmentApi();
 
   useEffect(() => {
     enrollmentAPI
       .getPersonalInformations()
       .then((res) => {
-        setUserEnrollment(res.data);
+        setIsEnroll(!!res.data);
         setIsLoading(false);
+        populateMessageText(
+          isEnroll,
+          isPaid,
+          isOnline,
+          setShowMessage,
+          setMessageText
+        );
       })
       .catch((err) => {
         /* eslint-disable-next-line no-console */
@@ -29,10 +50,7 @@ export default function Activities() {
       <Loading isLoading={isLoading} className="loading" />
       <Container show={!isLoading}>
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-        <NoEnrollmentMessage show={!userEnrollment}>
-          Você precisa completar sua inscrição antes <br /> de prosseguir pra
-          escolha de atividades
-        </NoEnrollmentMessage>
+        <Message show={showMessage}>{messageText}</Message>
       </Container>
     </>
   );
@@ -44,17 +62,4 @@ const Container = styled.div`
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
-`;
-
-const NoEnrollmentMessage = styled.h1`
-  font-size: 20px;
-  color: #8e8e8e;
-  width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  margin-top: 200px;
-  flex-direction: column;
-  display: ${(props) => (props.show ? "block" : "none")};
 `;
