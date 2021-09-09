@@ -3,29 +3,29 @@ import "react-credit-cards/es/styles-compiled.css";
 import StyledCard from "../../../components/Payment/StyledCard";
 import { useState } from "react";
 
-const CreditCard = (props) => {
+export default function CreditCard(props) {
   const [cvc, setCvc] = useState("");
   const [expiry, setExpiry] = useState("");
-  const [focus, setFocus] = useState("");
+  const [focused, setFocused] = useState("");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
-  const handleInputFocus = (e) => {
-    setFocus(e.target.name);
+  function handleInputFocus(e) {
+    setFocused(e.target.name);
   };
 
-  const handleSubmit = (e) => {
+  function payTheBill(e) {
     e.preventDefault();
   };
 
   return (
     <StyledCard>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={payTheBill}>
         <div className="payment">
           <Cards
             cvc={cvc}
             expiry={expiry}
-            focused={focus}
+            focused={focused}
             name={name}
             number={number}
           />
@@ -82,4 +82,3 @@ const CreditCard = (props) => {
     </StyledCard>
   );
 };
-export default CreditCard;

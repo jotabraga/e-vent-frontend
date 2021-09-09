@@ -5,10 +5,17 @@ import BookingContext from "../../../contexts/BookingContext";
 import OrderButton from "../../../components/Payment/OrderButton";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import CreditCard from "./CreditCard";
+import BookingApi from "../../../services/BookingApi";
 
 export default function Payment(props) {
-  const { bookingData } = useContext(BookingContext);
+  const { bookingData, setBookingData } = useContext(BookingContext);
   const { modality, lodge } = bookingData;
+  const bookingApi = new BookingApi();
+
+  function payBill() {
+    setBookingData( { ...bookingData, isPayed: true });
+    const request = bookingApi.payBooking();
+  }
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -23,7 +30,7 @@ export default function Payment(props) {
         <h2>Pagamento</h2>
       </NewSession>
       <CreditCard />
-      <OrderButton pay={true} >
+      <OrderButton pay={true} onClick={payBill} >
         FINALIZAR PAGAMENTO
       </OrderButton>
     </>  

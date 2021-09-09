@@ -21,7 +21,7 @@ const StyledCard = styled.div`
     }
     .payment {
       display: flex;
-      margin: 20px 0;
+      margin: 0;
       > div {
         margin: 0 30px 0 0;
         padding: 0;

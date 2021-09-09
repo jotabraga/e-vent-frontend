@@ -17,4 +17,12 @@ export default class BookingApi extends AuthenticatedApi {
       },
     });
   }
+
+  async payBooking(body) {
+    return await api.put("/bookings", body, {
+      headers: {
+        ...this.getAuthorizationHeader(),
+      },
+    });
+  }
 }
