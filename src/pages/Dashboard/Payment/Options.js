@@ -6,7 +6,6 @@ export default function Options(props) {
   const { ticket } = props;
   const { type } = ticket;
   const { bookingData, setBookingData } = useContext(BookingContext);
-  console.log(bookingData);
 
   return (
     <StyledCardOption onClick={() => handleUserTicketChoice(ticket, bookingData, setBookingData)} isSelected={type === bookingData?.lodge?.type || type === bookingData?.modality?.type } >
