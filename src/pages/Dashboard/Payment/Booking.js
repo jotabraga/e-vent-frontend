@@ -19,8 +19,7 @@ export default function Booking(props) {
   const [userEnrollment, setUserenrollment] = useState(null);
   const enrollementAPI = new EnrollmentApi();
   const bookingApi = new BookingApi();
-  const { bookingData } = useContext(BookingContext);
-  const { setIsBooked } = props;
+  const { bookingData, setBookingData } = useContext(BookingContext);
 
   useEffect(() => {
     const request = enrollementAPI.getPersonalInformations();
@@ -39,12 +38,12 @@ export default function Booking(props) {
     const request = bookingApi.confirmBooking(bookingUserInformation);
     request.then(() => {
       setIsSendingInfo(false);
+      setBookingData( { ...bookingData, isPaid: false, value: getBookingPrice(bookingData) } );
       toast.success("Sua reserva foi salva com sucesso!");
-      setIsBooked(true);
     });
     request.catch((error) => {
       setIsSendingInfo(false);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
     });               
   }
 
@@ -59,7 +58,7 @@ export default function Booking(props) {
         </NoEnrollmentMessage>
         <CardsSection show={userEnrollment}>
           <TicketOption apiPath={"modalities"}>
-            <h2>Primeiro, escolha sua modalidade de ingresso</h2>
+            <h2 onClick={() => console.log(bookingData)}>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
           {bookingData?.modality?.type === "Presencial" ? (
             <TicketOption apiPath={"lodges"}>
