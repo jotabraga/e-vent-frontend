@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import RoomOptions from "../../../components/Hotel/RoomOptions";
 import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
+import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
@@ -13,6 +14,8 @@ export default function Hotel() {
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
   const hotelRef = useRef();
+  const [review, setReview] = useState(false);
+
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
@@ -22,6 +25,7 @@ export default function Hotel() {
       toast(err.response.data.message);
     });
   }, []);
+
   useEffect(() => {
     if (hotelData !== null) {
       setIsSelected(true);
@@ -34,18 +38,25 @@ export default function Hotel() {
     );
     result.then(() => {
       toast("Hotel reserved");
+      setReview(true);
     });
     result.catch((err) => {
       toast(err.response.data.message);
     });
   }
+
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      <h2>Primeiro, escolha seu hotel</h2>
-      <HotelOptions hotels={hotels} />
-      {isSelected && <RoomOptions hotelData={hotelData} />}
-      {hotelData?.roomSelected && (
+      {review && <ReservationReview setReview={setReview} />}
+      {!review && (
+        <>
+          <h2>Primeiro, escolha seu hotel</h2>
+          <HotelOptions hotels={hotels} />
+        </>
+      )}
+      {isSelected && !review && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && !review && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}
     </Body>
