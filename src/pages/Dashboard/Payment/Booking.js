@@ -58,7 +58,7 @@ export default function Booking(props) {
         </NoEnrollmentMessage>
         <CardsSection show={userEnrollment}>
           <TicketOption apiPath={"modalities"}>
-            <h2>Primeiro, escolha sua modalidade de ingresso</h2>
+            <h2 onClick={() => console.log(bookingData)}>Primeiro, escolha sua modalidade de ingresso</h2>
           </TicketOption>
           {bookingData?.modality?.type === "Presencial" ? (
             <TicketOption apiPath={"lodges"}>

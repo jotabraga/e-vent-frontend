@@ -4,6 +4,7 @@ import styled from "styled-components";
 import BookingContext from "../../../contexts/BookingContext";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import CreditCard from "./CreditCard";
+import IsPaid from "../../../components/Payment/IsPaid";
 
 export default function Payment() {
   const { bookingData } = useContext(BookingContext);
@@ -20,10 +21,13 @@ export default function Payment() {
         <h4>R$ { getBookingPrice(bookingData) }</h4>
       </TicketChoosed>
       <NewSession >
-        <h2 onClick={() => console.log(bookingData)}>Pagamento</h2>
+        <h2>Pagamento</h2>
       </NewSession>
-      <CreditCard />
-  
+      {bookingData?.isPaid ?
+        <IsPaid />
+        :
+        <CreditCard />
+      }
     </>  
   );
 }

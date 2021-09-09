@@ -45,8 +45,8 @@ export default function CreditCard(props) {
           />
           <div className="inputs">
             <input
-              minlength="16"
-              maxlength="16"
+              minLength="16"
+              maxLength="16"
               required
               type="tel"
               name="number"
@@ -66,8 +66,8 @@ export default function CreditCard(props) {
             />
             <div className="double">
               <input
-                minlength="4"
-                maxlength="5"
+                minLength="4"
+                maxLength="5"
                 required
                 type="text"
                 name="expiry"
@@ -77,8 +77,8 @@ export default function CreditCard(props) {
                 onFocus={handleInputFocus}
               />
               <input
-                minlength="3"
-                maxlength="3"
+                minLength="3"
+                maxLength="3"
                 required
                 type="number"
                 name="cvc"
