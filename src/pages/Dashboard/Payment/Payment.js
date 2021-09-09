@@ -17,7 +17,7 @@ export default function Payment() {
         <h2>Ingresso escolhido</h2>
       </NewSession>
       <TicketChoosed>
-        <h3>{modality.type} + {lodge.type}</h3>
+        <h3>{lodge? modality.type + " + " + lodge.type : modality.type}</h3>
         <h4>R$ { getBookingPrice(bookingData) }</h4>
       </TicketChoosed>
       <NewSession >
