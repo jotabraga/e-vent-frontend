@@ -5,7 +5,7 @@ import BookingContext from "../../../contexts/BookingContext";
 import OrderButton from "../../../components/Payment/OrderButton";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import BookingApi from "../../../services/BookingApi";
-import toast from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Payment(props) {
   const { bookingData, setBookingData } = useContext(BookingContext);
@@ -13,7 +13,7 @@ export default function Payment(props) {
   const bookingApi = new BookingApi();
 
   function payBooking() {
-    const request = bookingApi.confirmBooking();
+    const request = bookingApi.payBooking();
     request.then(() => {
       setBookingData( { ...bookingData, isPaid: true } );
       toast.success("Sua reserva foi paga com sucesso!");
