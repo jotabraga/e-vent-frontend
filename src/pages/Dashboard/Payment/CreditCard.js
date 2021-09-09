@@ -1,6 +1,6 @@
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
-import { StyledCreditCard } from "./styles";
+import StyledCard from "../../../components/Payment/StyledCard";
 import { useState } from "react";
 
 const CreditCard = (props) => {
@@ -19,7 +19,7 @@ const CreditCard = (props) => {
   };
 
   return (
-    <StyledCreditCard>
+    <StyledCard>
       <form onSubmit={handleSubmit}>
         <div className="payment">
           <Cards
@@ -79,7 +79,7 @@ const CreditCard = (props) => {
         </div>
         {props.button}
       </form>
-    </StyledCreditCard>
+    </StyledCard>
   );
 };
 export default CreditCard;

@@ -22,7 +22,7 @@ export default function Payment(props) {
       <NewSession >
         <h2>Pagamento</h2>
       </NewSession>
-      {/* <CreditCard /> */}
+      <CreditCard />
       <OrderButton pay={true} >
         FINALIZAR PAGAMENTO
       </OrderButton>
