@@ -7,6 +7,7 @@ import RoomOptions from "../../../components/Hotel/RoomOptions";
 import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
 import BookingContext from "../../../contexts/BookingContext";
+import DeniedMessage from "../../../components/Hotel/DeniedMessage";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
