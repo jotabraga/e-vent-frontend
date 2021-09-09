@@ -48,7 +48,7 @@ export default function Hotel() {
     });
   }
   if (isLoading) return <Loading isLoading={isLoading} />;
-  if (!bookingData?.isPayed) {
+  if (!bookingData?.isPaid) {
     const messages = [
       "Você precisa ter confirmado pagamento antes",
       "de fazer a escolha de hospedagem",
