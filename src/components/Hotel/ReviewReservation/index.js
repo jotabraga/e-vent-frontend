@@ -7,12 +7,12 @@ export default function reviewHotelCard({ reservation }) {
       <h1>{reservation.hotel.name}</h1>
       <Property>
         <Title>Quarto reservado</Title>
-        <span>{reservation.room.number}</span>
+        <span>{`${reservation.room.number} (${reservation.roomType})`} </span>
       </Property>
       <Property>
         <Title>Pessoas no seu quarto</Title>
         {reservation.otherPeopleInRoom === 0
-          ? <span>Apenas você no quarto</span> 
+          ? <span>Somente você</span> 
           : <span>Você e mais {reservation.otherPeopleInRoom}</span>
         }
       </Property>
