@@ -7,7 +7,6 @@ import Button from "../../../components/Form/Button";
 
 export default function ReservationReview({ setReview }) {
   const [reservationData, setReservationData] = useState(null);
-
   const { userData } = useContext(UserContext);
   const { hotelReservation } = useApi();
   useEffect(() => {
