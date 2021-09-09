@@ -8,11 +8,11 @@ import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
 import BookingContext from "../../../contexts/BookingContext";
 import Loading from "../../../components/Loading";
+import DeniedMessage from "../../../components/Hotel/DeniedMessage";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
   const { bookingData } = useContext(BookingContext);
-  console.log(bookingData);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,6 +48,13 @@ export default function Hotel() {
     });
   }
   if (isLoading) return <Loading isLoading={isLoading} />;
+  if (!bookingData?.isPayed) {
+    const messages = [
+      "Você precisa ter confirmado pagamento antes",
+      "de fazer a escolha de hospedagem",
+    ];
+    return <DeniedMessage messages={messages} />;
+  }
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
