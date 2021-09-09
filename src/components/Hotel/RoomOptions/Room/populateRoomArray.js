@@ -1,14 +1,15 @@
 export default function populateRoomArray(isSelected, room) {
-  const roomArray = [];
   let iconSelected = false;
-  for (let i = 0; i < room.roomVacancies; i++) {
-    if (i >= room.ocuppiedVacancies) {
+  const roomArray = Array.from({ length: room.roomVacancies }, (_, index) => {
+    if (index >= room.ocuppiedVacancies) {
       if (isSelected && !iconSelected) {
-        roomArray.push("IoSelected");
         iconSelected = true;
-      } else roomArray.push("IoPersonOutline");
-    } else roomArray.push("IoPerson");
-  }
+        return "IoSelected";
+      } else return "IoPersonOutline";
+    } else {
+      return "IoPerson";
+    }
+  });
   roomArray.reverse();
   return roomArray;
 }
