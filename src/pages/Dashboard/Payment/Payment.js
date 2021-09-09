@@ -2,44 +2,28 @@ import Typography from "@material-ui/core/Typography";
 import { useContext } from "react";
 import styled from "styled-components";
 import BookingContext from "../../../contexts/BookingContext";
-import OrderButton from "../../../components/Payment/OrderButton";
 import getBookingPrice from "./Helpers/getBookingPrice";
-import BookingApi from "../../../services/BookingApi";
-import { toast } from "react-toastify";
+import CreditCard from "./CreditCard";
 
-export default function Payment(props) {
-  const { bookingData, setBookingData } = useContext(BookingContext);
+export default function Payment() {
+  const { bookingData } = useContext(BookingContext);
   const { modality, lodge } = bookingData;
-  const bookingApi = new BookingApi();
-
-  function payBooking() {
-    const request = bookingApi.payBooking();
-    request.then(() => {
-      setBookingData( { ...bookingData, isPaid: true } );
-      toast.success("Sua reserva foi paga com sucesso!");
-    });
-    request.catch((error) => {
-      toast.error(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
-    });               
-  }
 
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <NewSession >
-        <h2 onClick={() => console.log(bookingData)}>Ingresso escolhido</h2>
+        <h2>Ingresso escolhido</h2>
       </NewSession>
       <TicketChoosed>
         <h3>{modality.type} + {lodge.type}</h3>
         <h4>R$ { getBookingPrice(bookingData) }</h4>
       </TicketChoosed>
       <NewSession >
-        <h2>Pagamento</h2>
+        <h2 onClick={() => console.log(bookingData)}>Pagamento</h2>
       </NewSession>
-      {/* <CreditCard /> */}
-      <OrderButton pay={true} onClick={payBooking}>
-        FINALIZAR PAGAMENTO
-      </OrderButton>
+      <CreditCard />
+  
     </>  
   );
 }

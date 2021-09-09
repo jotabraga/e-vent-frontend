@@ -9,7 +9,7 @@ export default function PaymentUserFlow() {
 
   return(
     <>      
-      {bookingData.isPaid !== undefined ? (
+      {bookingData?.isPaid !== undefined ? (
         <Payment />
       ) : (
         <Booking />
