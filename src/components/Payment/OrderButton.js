@@ -4,7 +4,7 @@ const OrderButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 162px;
+  width: ${(props) => (props.pay ? "182px" : "162px")};
   height: 37px;
   background: #E0E0E0;
   border-radius: 4px;

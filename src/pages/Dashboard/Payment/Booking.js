@@ -34,9 +34,6 @@ export default function Booking(props) {
   }, []);
 
   function saveBooking() {
-    const isAlreadyBooked = bookingApi.getBookingInfo();
-    if (isAlreadyBooked) return setIsBooked(true);
-    
     setIsSendingInfo(true);
     const bookingUserInformation = getBookingInfo(bookingData);
     const request = bookingApi.confirmBooking(bookingUserInformation);
