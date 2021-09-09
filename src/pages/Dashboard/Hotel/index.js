@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import useApi from "../../../hooks/useApi";
-import HotelCard from "../../../components/Hotel/HotelCard";
 import styled from "styled-components";
 import HotelContext from "../../../contexts/HotelContext";
-import Rooms from "../../../components/Hotel/Rooms";
 import { toast } from "react-toastify";
+import RoomOptions from "../../../components/Hotel/RoomOptions";
+import HotelOptions from "../../../components/Hotel/HotelOptions";
+import Button from "../../../components/Form/Button";
 import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
@@ -12,12 +13,14 @@ export default function Hotel() {
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
-  const [review, setReview] = useState(true);
+  const [review, setReview] = useState(false);
+  const hotelRef = useRef();
 
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);
+      setReview(false);
     });
     result.catch((err) => {
       toast(err.response.data.message);
@@ -25,39 +28,43 @@ export default function Hotel() {
   }, []);
 
   useEffect(() => {
-    if (hotelData !== null) setIsSelected(true);
-    else setIsSelected(false);
+    if (hotelData !== null) {
+      setIsSelected(true);
+    } else setIsSelected(false);
   }, [hotelData]);
 
+  function makeReservation() {
+    const result = hotel.makeHotelReservartion(
+      hotelData.id,
+      hotelData.roomSelected.id
+    );
+    result.then(() => {
+      toast("Hotel reserved");
+      setReview(true);
+    });
+    result.catch((err) => {
+      toast(err.response.data.message);
+    });
+  }
+  
   return (
     <Body>
       <h1>Escolha de hotel e quarto</h1>
-      { review && isSelected
-        ? <ReservationReview hotel={hotelData}/>
-        : 
+      {review && <ReservationReview hotel={hotelData}/>}
+      {!review &&
         <>
           <h2>Primeiro, escolha seu hotel</h2>
-          <HotelOptions>
-            {hotels.map((h) => (
-              <HotelCard key={h.id} hotel={h} />
-            ))}
-          </HotelOptions>
+          <HotelOptions hotels={hotels} />
         </>
       }
-      {/* {isSelected && (
-        <>
-          <h2>Ótima pedida! Agora escolha seu quarto:</h2>
-          <Rooms hotel={hotelData} />
-        </>
-      )} */}
+      {isSelected && !review && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && !review && (
+        <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
+      )}
     </Body>
   );
 }
 
-const HotelOptions = styled.div`
-  display: flex;
-  gap: 20px;
-`;
 const Body = styled.div`
   font-family: "Roboto";
   & > h1 {
@@ -72,4 +79,9 @@ const Body = styled.div`
     line-height: 23px;
     margin-bottom: 18px;
   }
+`;
+const RoomButton = styled(Button)`
+  font-family: "Roboto" !important;
+  margin-top: 40px !important;
+  color: #000 !important;
 `;
