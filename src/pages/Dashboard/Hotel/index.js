@@ -20,7 +20,6 @@ export default function Hotel() {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);
-      setReview(false);
     });
     result.catch((err) => {
       toast(err.response.data.message);
@@ -50,7 +49,7 @@ export default function Hotel() {
   return (
     <Body>
       <h1>Escolha de hotel e quarto</h1>
-      {review && <ReservationReview hotel={hotelData}/>}
+      {review && <ReservationReview setReview={setReview}/>}
       {!review &&
         <>
           <h2>Primeiro, escolha seu hotel</h2>
