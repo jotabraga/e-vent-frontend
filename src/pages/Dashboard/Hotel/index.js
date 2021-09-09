@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 import RoomOptions from "../../../components/Hotel/RoomOptions";
 import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
+import BookingContext from "../../../contexts/BookingContext";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
+  const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
@@ -38,6 +40,16 @@ export default function Hotel() {
     result.catch((err) => {
       toast(err.response.data.message);
     });
+  }
+  if (
+    bookingData?.lodge.type === "Sem Hotel" ||
+    bookingData?.modality.type === "Online"
+  ) {
+    const messages = [
+      "Sua modalidade de ingresso não inclui hospedagem",
+      "Prossiga para a escolha de atividades",
+    ];
+    return <DeniedMessage messages={messages} />;
   }
   return (
     <Body ref={hotelRef}>
