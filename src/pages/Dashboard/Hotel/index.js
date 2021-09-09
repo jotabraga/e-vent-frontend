@@ -13,8 +13,8 @@ export default function Hotel() {
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
-  const [review, setReview] = useState(false);
   const hotelRef = useRef();
+  const [review, setReview] = useState(false);
 
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
@@ -31,7 +31,6 @@ export default function Hotel() {
       setIsSelected(true);
     } else setIsSelected(false);
   }, [hotelData]);
-
   function makeReservation() {
     const result = hotel.makeHotelReservartion(
       hotelData.id,
@@ -45,17 +44,17 @@ export default function Hotel() {
       toast(err.response.data.message);
     });
   }
-  
+
   return (
-    <Body>
+    <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      {review && <ReservationReview setReview={setReview}/>}
-      {!review &&
+      {review && <ReservationReview setReview={setReview} />}
+      {!review && (
         <>
           <h2>Primeiro, escolha seu hotel</h2>
           <HotelOptions hotels={hotels} />
         </>
-      }
+      )}
       {isSelected && !review && <RoomOptions hotelData={hotelData} />}
       {hotelData?.roomSelected && !review && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>

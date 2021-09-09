@@ -25,7 +25,6 @@ export default function Room({ room }) {
       setIsSelected(true);
     }
   }
-
   return (
     <Body
       isFull={isFull}
@@ -48,7 +47,6 @@ export default function Room({ room }) {
     </Body>
   );
 }
-
 const Body = styled.button`
   width: 190px;
   height: 45px;
