@@ -5,7 +5,6 @@ const StyledCard = styled.div`
   display: flex;
   gap: 25px; 
   
-
   #valid{
     width: 22em !important;
   }
@@ -37,7 +36,15 @@ const StyledCard = styled.div`
       border-color: #8e8e8e;       
       }     
     }     
-  }      
+  }    
+    
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-items: flex-start;
+
+  }  
 
 `;
 
