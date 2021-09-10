@@ -22,18 +22,7 @@ export default function CreditCard(props) {
 
   function handleChange(e, setter) {
     const discardedChars = [".", "/", "_"];
-    if(setter === setNumber) {
-      setter(e.target.value.split("").filter(item => discardedChars.includes(item)===false).join(""));
-    }
-    if (setter === setName) {
-      setter(e.target.value);
-    }
-    if (setter === setCvc) {
-      setter(e.target.value.split("").filter(item => discardedChars.includes(item)===false).join(""));
-    }
-    if (setter === setExpiry) {
-      setter(e.target.value.split("").filter(item => discardedChars.includes(item)===false).join(""));
-    }
+    setter(e.target.value.split("").filter(item => discardedChars.includes(item)===false).join(""));
   }
 
   function payBooking(e) {
@@ -73,24 +62,57 @@ export default function CreditCard(props) {
           number={number}
         />
       </div>
-      <form id="cc-form" onSubmit={payBooking}>
-        <div className="payment-info">
-          <div className="inputs-container">
+      <form id="cc-form" onSubmit={payBooking}>      
+        <div className="inputs-container">
+          <InputMask 
+            mask="9999.9999.9999.9999"
+            value={number}
+            onChange={(e) => handleChange(e, setNumber)}
+            onFocus={(e) => setFocus(e.target.name)}
+          >
+            {(inputProps) => 
+              <TextField
+                {...inputProps}  
+                variant="outlined"
+                label="Card Number"
+                error={false}
+                helperText="Eg.: 49..., 51..., 36..., 37..."
+                name="number"
+                value={number}
+                size = "small"
+                required
+              />
+            }
+          </InputMask>
+          <TextField  
+            style = {{ marginTop: 15 }}
+            variant="outlined"
+            label="Name"
+            error={false}
+            name="name"
+            inputProps={{ maxLength: 30 }}
+            value={name}
+            onChange={(e) => handleChange(e, setName)}
+            onFocus={(e) => setFocus(e.target.name)}
+            size = "small"
+            required
+          />
+          <div className="double-input">
             <InputMask 
-              mask="9999.9999.9999.9999"
-              value={number}
-              onChange={(e) => handleChange(e, setNumber)}
+              id = "valid"
+              mask="99/99"
+              value={expiry}
+              onChange={(e) => handleChange(e, setExpiry)}
               onFocus={(e) => setFocus(e.target.name)}
             >
               {(inputProps) => 
                 <TextField
                   {...inputProps}  
+                  style = {{ marginTop: 15 }}
                   variant="outlined"
-                  label="Card Number"
-                  error={false}
-                  helperText="Eg.: 49..., 51..., 36..., 37..."
-                  name="number"
-                  value={number}
+                  label="Valid Thru"
+                  name="expiry"
+                  value={expiry}
                   size = "small"
                   required
                 />
@@ -98,51 +120,18 @@ export default function CreditCard(props) {
             </InputMask>
             <TextField  
               style = {{ marginTop: 15 }}
+              id="cvc"
+              name="cvc"
               variant="outlined"
-              label="Name"
+              label="CVC"
               error={false}
-              name="name"
-              inputProps={{ maxLength: 30 }}
-              value={name}
-              onChange={(e) => handleChange(e, setName)}
+              value={cvc}
+              inputProps={{ maxLength: 3 }}
+              onChange={(e) => handleChange(e, setCvc)}
               onFocus={(e) => setFocus(e.target.name)}
               size = "small"
               required
             />
-            <div className="double-input">
-              <InputMask 
-                mask="99/99"
-                value={expiry}
-                onChange={(e) => handleChange(e, setExpiry)}
-                onFocus={(e) => setFocus(e.target.name)}
-              >
-                {(inputProps) => 
-                  <TextField
-                    {...inputProps}  
-                    style = {{ width: 320, marginTop: 15 }}
-                    variant="outlined"
-                    label="Valid Thru"
-                    name="expiry"
-                    value={expiry}
-                    size = "small"
-                    required
-                  />
-                }
-              </InputMask>
-              <TextField  
-                style = {{ width: 180, marginLeft: 20, marginTop: 15 }}
-                name="cvc"
-                variant="outlined"
-                label="CVC"
-                error={false}
-                value={cvc}
-                inputProps={{ maxLength: 3 }}
-                onChange={(e) => handleChange(e, setCvc)}
-                onFocus={(e) => setFocus(e.target.name)}
-                size = "small"
-                required
-              />
-            </div>
           </div>
         </div>
       </form>

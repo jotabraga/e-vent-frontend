@@ -1,17 +1,26 @@
 import styled from "styled-components";
 
 const StyledCard = styled.div` 
-  width: 100%;
   height: 225px; 
   display: flex;
   gap: 25px; 
+  
+
+  #valid{
+    width: 22em !important;
+  }
+  #cvc{
+    width: 10em !important;
+  }
   .inputs-container{
     display: flex;
     flex-direction: column;
     border-style: none;
   }
-  .double-inputs{
-    justify-content: space-between;
+  .double-input{
+    display: flex ;
+    justify-content: space-between ;
+    width: 100% ;
   }
   form {     
   width: 100%;
@@ -23,21 +32,13 @@ const StyledCard = styled.div`
     height: 20px;       
     padding: 5px;       
     margin: 5px 0;       
-    border: 1px solid #e8e8e8;       
     border-radius: 5px;              
     :focus {         
       border-color: #8e8e8e;       
-    }     }     
-    .payment-info 
-    {              
-      margin: 0;       
-      > div 
-      {         
-        margin: 0 30px 0 0;         
-        padding: 0;       
-      } 
-    }
+      }     
+    }     
   }      
+
 `;
 
 export default StyledCard;
