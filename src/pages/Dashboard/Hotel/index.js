@@ -7,20 +7,29 @@ import RoomOptions from "../../../components/Hotel/RoomOptions";
 import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
 import BookingContext from "../../../contexts/BookingContext";
+import HotelReservationContext from "../../../contexts/HotelReservationContext";
 import DeniedMessage from "../../../components/Hotel/DeniedMessage";
 import Loading from "../../../components/Loading";
 import ReservationReview from "./ReservationReview";
+import UserContext from "../../../contexts/UserContext";
 
 export default function Hotel() {
+  const { userData } = useContext(UserContext);
   const { hotelData } = useContext(HotelContext);
+  const { hotelReservationData, setHotelReservationData } = useContext(HotelReservationContext);
   const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
+  const { hotelReservation } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState(false);
 
   const hotelRef = useRef();
   const [review, setReview] = useState(false);
+
+  useEffect(() => {
+    getReservationData();
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -40,6 +49,14 @@ export default function Hotel() {
       setIsSelected(true);
     } else setIsSelected(false);
   }, [hotelData]);
+
+  function getReservationData() {
+    const result = hotelReservation.getHotelReservation(userData.user.id);
+    result.then((res) => {
+      setHotelReservationData(res.data);
+    });
+  }
+
   function makeReservation() {
     const result = hotel.makeHotelReservartion(
       hotelData.id,
@@ -47,7 +64,7 @@ export default function Hotel() {
     );
     result.then(() => {
       toast("Hotel reserved");
-      setReview(true);
+      getReservationData();
     });
     result.catch((err) => {
       toast(err.response.data.message);
@@ -74,15 +91,15 @@ export default function Hotel() {
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      {review && <ReservationReview setReview={setReview} />}
-      {!review && (
+      {hotelReservationData && <ReservationReview hotelReservationData={hotelReservationData} setHotelReservationData={setHotelReservationData} />}
+      {!hotelReservationData && (
         <>
           <h2>Primeiro, escolha seu hotel</h2>
           <HotelOptions hotels={hotels} />
         </>
       )}
-      {isSelected && !review && <RoomOptions hotelData={hotelData} />}
-      {hotelData?.roomSelected && !review && (
+      {isSelected && !hotelReservationData && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && !hotelReservationData && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}
     </Body>

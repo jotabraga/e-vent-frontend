@@ -16,51 +16,54 @@ import EventInfoContext, {
 import UserContext, { UserProvider } from "./contexts/UserContext";
 import { HotelProvider } from "./contexts/HotelContext";
 import { BookingProvider } from "./contexts/BookingContext";
+import { HotelReservationProvider } from "./contexts/HotelReservationContext";
 
 export default function App() {
   return (
     <>
       <ToastContainer />
       <EventInfoProvider>
-        <UserProvider>
-          <HotelProvider>
-            <Router>
-              <Switch>
-                <ConditionalRoute
-                  check={ensureCountdownOngoing}
-                  path="/"
-                  exact
-                >
-                  <Countdown />
-                </ConditionalRoute>
-
-                <ConditionalRoute
-                  check={ensureCountdownOver}
-                  path="/enroll"
-                  exact
-                >
-                  <Enroll />
-                </ConditionalRoute>
-
-                <ConditionalRoute
-                  check={ensureCountdownOver}
-                  path="/sign-in"
-                  exact
-                >
-                  <SignIn />
-                </ConditionalRoute>
-                <BookingProvider>
+        <HotelReservationProvider>
+          <UserProvider>
+            <HotelProvider>
+              <Router>
+                <Switch>
                   <ConditionalRoute
-                    check={ensureAuthenticated}
-                    path="/dashboard"
+                    check={ensureCountdownOngoing}
+                    path="/"
+                    exact
                   >
-                    <Dashboard />
+                    <Countdown />
                   </ConditionalRoute>
-                </BookingProvider>
-              </Switch>
-            </Router>
-          </HotelProvider>
-        </UserProvider>
+
+                  <ConditionalRoute
+                    check={ensureCountdownOver}
+                    path="/enroll"
+                    exact
+                  >
+                    <Enroll />
+                  </ConditionalRoute>
+
+                  <ConditionalRoute
+                    check={ensureCountdownOver}
+                    path="/sign-in"
+                    exact
+                  >
+                    <SignIn />
+                  </ConditionalRoute>
+                  <BookingProvider>
+                    <ConditionalRoute
+                      check={ensureAuthenticated}
+                      path="/dashboard"
+                    >
+                      <Dashboard />
+                    </ConditionalRoute>
+                  </BookingProvider>
+                </Switch>
+              </Router>
+            </HotelProvider>
+          </UserProvider>
+        </HotelReservationProvider>
       </EventInfoProvider>
     </>
   );
