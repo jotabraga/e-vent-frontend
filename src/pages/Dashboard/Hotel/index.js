@@ -9,6 +9,7 @@ import Button from "../../../components/Form/Button";
 import BookingContext from "../../../contexts/BookingContext";
 import Loading from "../../../components/Loading";
 import DeniedMessage from "../../../components/Hotel/DeniedMessage";
+import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
@@ -17,7 +18,10 @@ export default function Hotel() {
   const [hotels, setHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState(false);
+
   const hotelRef = useRef();
+  const [review, setReview] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     const result = hotel.GetHotelsInformation();
@@ -30,6 +34,7 @@ export default function Hotel() {
       setIsLoading(false);
     });
   }, []);
+
   useEffect(() => {
     if (hotelData !== null) {
       setIsSelected(true);
@@ -42,6 +47,7 @@ export default function Hotel() {
     );
     result.then(() => {
       toast("Hotel reserved");
+      setReview(true);
     });
     result.catch((err) => {
       toast(err.response.data.message);
@@ -58,10 +64,15 @@ export default function Hotel() {
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      <h2>Primeiro, escolha seu hotel</h2>
-      <HotelOptions hotels={hotels} />
-      {isSelected && <RoomOptions hotelData={hotelData} />}
-      {hotelData?.roomSelected && (
+      {review && <ReservationReview setReview={setReview} />}
+      {!review && (
+        <>
+          <h2>Primeiro, escolha seu hotel</h2>
+          <HotelOptions hotels={hotels} />
+        </>
+      )}
+      {isSelected && !review && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && !review && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}
     </Body>

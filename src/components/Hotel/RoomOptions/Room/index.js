@@ -3,15 +3,19 @@ import { IoPersonOutline, IoPerson } from "react-icons/io5";
 import { useContext, useEffect, useState } from "react";
 import HotelContext from "../../../../contexts/HotelContext";
 import populateRoomArray from "./populateRoomArray";
+
 export default function Room({ room }) {
   const { hotelData, setHotelData } = useContext(HotelContext);
   const [isSelected, setIsSelected] = useState(false);
+
   useEffect(() => {
     if (hotelData.roomSelected?.id === room.id) setIsSelected(true);
     else setIsSelected(false);
   }, [hotelData]);
+
   let isFull = room.ocuppiedVacancies === room.roomVacancies;
   const roomPeople = populateRoomArray(isSelected, room);
+
   function toggleRoom() {
     if (room.id === hotelData.roomSelected?.id) {
       setIsSelected(false);
