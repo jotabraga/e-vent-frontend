@@ -6,24 +6,32 @@ import { toast } from "react-toastify";
 import RoomOptions from "../../../components/Hotel/RoomOptions";
 import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
+import BookingContext from "../../../contexts/BookingContext";
+import DeniedMessage from "../../../components/Hotel/DeniedMessage";
+import Loading from "../../../components/Loading";
 import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
+  const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState(false);
 
   const hotelRef = useRef();
   const [review, setReview] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);
+      setIsLoading(false);
     });
     result.catch((err) => {
       toast(err.response.data.message);
+      setIsLoading(false);
     });
   }, []);
 
@@ -45,7 +53,24 @@ export default function Hotel() {
       toast(err.response.data.message);
     });
   }
-
+  if (isLoading) return <Loading isLoading={isLoading} />;
+  if (!bookingData?.isPaid) {
+    const messages = [
+      "Você precisa ter confirmado pagamento antes",
+      "de fazer a escolha de hospedagem",
+    ];
+    return <DeniedMessage messages={messages} />;
+  }
+  if (
+    bookingData?.lodge?.type === "Sem Hotel" ||
+    bookingData?.modality?.type === "Online"
+  ) {
+    const messages = [
+      "Sua modalidade de ingresso não inclui hospedagem",
+      "Prossiga para a escolha de atividades",
+    ];
+    return <DeniedMessage messages={messages} />;
+  }
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
