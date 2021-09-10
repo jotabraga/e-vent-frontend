@@ -9,7 +9,7 @@ import ChoiceSession from "../../../components/Payment/ChoiceSession";
 export default function TicketOption(props) {
   const [ticketOptions, setTicketsOptions] = useState(null);
   const { apiPath } = props;
-
+  console.log(ticketOptions);
   useEffect(() => {
     let request;
 
