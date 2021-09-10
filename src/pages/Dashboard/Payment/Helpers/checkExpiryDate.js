@@ -1,9 +1,15 @@
-export default function checkExpiryDate(str) {
-  const month = Number(str.substring(0, 2));
-  const year = Number(str.substring(2, 4));
+import dayjs from "dayjs";
 
-  if ( month < 0 || month > 12 ) return false;
-  if ( year < 21) return false;
+export default function checkExpiryDate(str) {
+  const month = str.substring(0, 2);
+  const year = str.substring(2, 4);
+
+  const currentMonth = dayjs().format("MM");
+  const currentYear = dayjs().format("YY");
+
+  if ( month <= 0 || month > 12 ) return false;
+  if ( year < currentYear) return false;
+  if ( year === currentYear && month < currentMonth) return false;
 
   return true;
 }
