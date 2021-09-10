@@ -53,21 +53,21 @@ export default function Hotel() {
       toast(err.response.data.message);
     });
   }
-  if (
-    bookingData?.lodge.type === "Sem Hotel" ||
-    bookingData?.modality.type === "Online"
-  ) {
-    const messages = [
-      "Sua modalidade de ingresso não inclui hospedagem",
-      "Prossiga para a escolha de atividades",
-    ];
-    return <DeniedMessage messages={messages} />;
-  }
   if (isLoading) return <Loading isLoading={isLoading} />;
   if (!bookingData?.isPaid) {
     const messages = [
       "Você precisa ter confirmado pagamento antes",
       "de fazer a escolha de hospedagem",
+    ];
+    return <DeniedMessage messages={messages} />;
+  }
+  if (
+    bookingData?.lodge?.type === "Sem Hotel" ||
+    bookingData?.modality?.type === "Online"
+  ) {
+    const messages = [
+      "Sua modalidade de ingresso não inclui hospedagem",
+      "Prossiga para a escolha de atividades",
     ];
     return <DeniedMessage messages={messages} />;
   }

@@ -3,8 +3,8 @@ import styled from "styled-components";
 export default function DeniedMessage({ messages }) {
   return (
     <Body>
-      {messages.map((message) => (
-        <span>{message}</span>
+      {messages.map((message, index) => (
+        <span key={index}>{message}</span>
       ))}
     </Body>
   );
