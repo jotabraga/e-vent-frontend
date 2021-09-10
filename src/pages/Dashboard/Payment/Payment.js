@@ -1,14 +1,17 @@
 import Typography from "@material-ui/core/Typography";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import BookingContext from "../../../contexts/BookingContext";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import CreditCard from "./CreditCard";
 import IsPaid from "../../../components/Payment/IsPaid";
+import OrderButton from "../../../components/Payment/OrderButton";
+import Loader from "react-loader-spinner";
 
 export default function Payment() {
   const { bookingData } = useContext(BookingContext);
   const { modality, lodge } = bookingData;
+  const [isSendingInfo, setIsSendingInfo] = useState(false);
 
   return (
     <>
@@ -26,7 +29,19 @@ export default function Payment() {
       {bookingData?.isPaid ?
         <IsPaid />
         :
-        <CreditCard />
+        <>
+          <CreditCard setIsSendingInfo={setIsSendingInfo}/>
+          <OrderButton form="cc-form" pay={true} type="submit" >
+            <Loader
+              visible={isSendingInfo}
+              type="ThreeDots"
+              color="#111"
+              height={50}
+              width={50}
+            />
+            {isSendingInfo ? "": "FINALIZAR PAGAMENTO"}
+          </OrderButton>
+        </>
       }
     </>  
   );

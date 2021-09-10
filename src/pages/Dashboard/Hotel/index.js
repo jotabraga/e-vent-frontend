@@ -11,6 +11,7 @@ export default function Hotel() {
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
   const [isSelected, setIsSelected] = useState(false);
+
   useEffect(() => {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {

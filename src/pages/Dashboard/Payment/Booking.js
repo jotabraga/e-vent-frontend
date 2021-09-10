@@ -13,7 +13,7 @@ import getBookingPrice from "./Helpers/getBookingPrice";
 import getBookingInfo from "./Helpers/getBookingInfo";
 import Loader from "react-loader-spinner";
 
-export default function Booking(props) {
+export default function Booking() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSendingInfo, setIsSendingInfo] = useState(false);
   const [userEnrollment, setUserenrollment] = useState(null);
@@ -39,7 +39,6 @@ export default function Booking(props) {
     request.then(() => {
       setIsSendingInfo(false);
       setBookingData( { ...bookingData, isPaid: false, value: getBookingPrice(bookingData) } );
-      toast.success("Sua reserva foi salva com sucesso!");
     });
     request.catch((error) => {
       setIsSendingInfo(false);
