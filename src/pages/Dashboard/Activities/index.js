@@ -26,6 +26,8 @@ export default function Activities() {
   const [showMessage, setShowMessage] = useState(true);
   const { enrollment } = useApi();
 
+  const [dayIsSelected, setDayIsSelected] = useState(false);
+
   useEffect(() => {
     enrollment
       .getPersonalInformations()
@@ -52,10 +54,13 @@ export default function Activities() {
       <Loading isLoading={isLoading} className="loading" />
       <Container show={!isLoading}>
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-        <Message show={!showMessage}>{messageText}</Message>
-        <SubContainer show={showMessage}>
+        <Message show={showMessage}>{messageText}</Message>
+        <SubContainer show={!showMessage} h2Show={dayIsSelected}>
           <h2>Primeiro, filtre pelo dia do evento: </h2>
-          <ActivitiesDates />
+          <ActivitiesDates
+            setDayIsSelected={setDayIsSelected}
+            dayIsSelected={dayIsSelected}
+          />
         </SubContainer>
       </Container>
     </>
@@ -78,8 +83,11 @@ const SubContainer = styled.div`
 
   h2 {
     color: #8e8e8e;
+
     font-size: 20px;
     line-height: 23px;
     margin-bottom: 18px;
+
+    display: ${(props) => (props.h2Show ? "none" : "block")};
   }
 `;

@@ -9,4 +9,10 @@ export default class ActivityApi extends AuthenticatedApi {
       },
     });
   }
+
+  async getActivitiesByDate(body) {
+    return await api.post("/activities", body, {
+      headers: { ...this.getAuthorizationHeader() },
+    });
+  }
 }

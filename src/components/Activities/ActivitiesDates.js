@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import Button from "./DateButton";
+import Location from "./Location";
 import useApi from "../../hooks/useApi";
 
-export default function ActivitiesDates() {
+export default function ActivitiesDates(props) {
+  const { setDayIsSelected, dayIsSelected } = props;
   const [dates, setDates] = useState([]);
+  const [activitiesByDate, setActivitiesByDate] = useState([]);
   const { activity } = useApi();
 
-  console.log(
-    new Date(dates[0].date).toLocaleDateString("br-PT", { weekday: "long" })
+  const [selectedDay, setSelectedDay] = useState([]);
+
+  useEffect(() => {
+    if (selectedDay.length === 1) setDayIsSelected(true);
+  }, [selectedDay]);
+
+  const allLocations = activitiesByDate.map((item) => item.location.name);
+  const differentsLocations = allLocations.filter(
+    (item, i) => allLocations.indexOf(item) === i
   );
 
   useEffect(() => {
@@ -18,38 +29,43 @@ export default function ActivitiesDates() {
         setDates(res.data);
       })
       .catch((err) => {
+        // eslint-disable-next-line
         console.log(err);
       });
   }, []);
 
   return (
     <>
-      <Button onClick={() => console.log("mudar cor e faz requisição")}>
-        Sexta, 22/10
-      </Button>
-      <Button>Sábado, 22/10</Button>
-      <Button>Sexta, 22/10</Button>
-      <Button>Sábado, 22/10</Button>
-      <Button>Sexta, 22/10</Button>
+      {dates.map((day, i) => {
+        let text = new Date(day.date)
+          .toLocaleDateString("br-PT", { weekday: "long" })
+          .split("-", 1);
+        text =
+          text +
+          ", " +
+          new Date(day.date).toLocaleDateString("br-PT").slice(0, 5);
+        const finalText = text[0].toUpperCase() + text.substr(1);
+        return (
+          <Button
+            key={i}
+            unformattedDate={day}
+            day={finalText}
+            setSelectedDay={setSelectedDay}
+            selectedDay={selectedDay}
+            setActivitiesByDate={setActivitiesByDate}
+          />
+        );
+      })}
+      <Locations show={dayIsSelected}>
+        {differentsLocations.map((item, i) => (
+          <Location name={item} key={i} />
+        ))}
+      </Locations>
     </>
   );
 }
 
-const Button = styled.button`
-  width: 131px;
-  height: 37px;
-
-  margin-right: 17px;
-  margin-bottom: 10px;
-
-  background-color: #ffd37d;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-
-  border: none;
-  border-radius: 4px;
-
-  color: #000;
-  font-size: 14px;
-
-  text-align: center;
+const Locations = styled.div`
+  overflow: auto;
+  display: ${(props) => (props.show ? "flex" : "none")};
 `;
