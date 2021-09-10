@@ -8,23 +8,33 @@ import HotelOptions from "../../../components/Hotel/HotelOptions";
 import Button from "../../../components/Form/Button";
 import BookingContext from "../../../contexts/BookingContext";
 import DeniedMessage from "../../../components/Hotel/DeniedMessage";
+import Loading from "../../../components/Loading";
+import ReservationReview from "./ReservationReview";
 
 export default function Hotel() {
   const { hotelData } = useContext(HotelContext);
   const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
   const [hotels, setHotels] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState(false);
+
   const hotelRef = useRef();
+  const [review, setReview] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);
+      setIsLoading(false);
     });
     result.catch((err) => {
       toast(err.response.data.message);
+      setIsLoading(false);
     });
   }, []);
+
   useEffect(() => {
     if (hotelData !== null) {
       setIsSelected(true);
@@ -37,6 +47,7 @@ export default function Hotel() {
     );
     result.then(() => {
       toast("Hotel reserved");
+      setReview(true);
     });
     result.catch((err) => {
       toast(err.response.data.message);
@@ -52,13 +63,26 @@ export default function Hotel() {
     ];
     return <DeniedMessage messages={messages} />;
   }
+  if (isLoading) return <Loading isLoading={isLoading} />;
+  if (!bookingData?.isPaid) {
+    const messages = [
+      "Você precisa ter confirmado pagamento antes",
+      "de fazer a escolha de hospedagem",
+    ];
+    return <DeniedMessage messages={messages} />;
+  }
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      <h2>Primeiro, escolha seu hotel</h2>
-      <HotelOptions hotels={hotels} />
-      {isSelected && <RoomOptions hotelData={hotelData} />}
-      {hotelData?.roomSelected && (
+      {review && <ReservationReview setReview={setReview} />}
+      {!review && (
+        <>
+          <h2>Primeiro, escolha seu hotel</h2>
+          <HotelOptions hotels={hotels} />
+        </>
+      )}
+      {isSelected && !review && <RoomOptions hotelData={hotelData} />}
+      {hotelData?.roomSelected && !review && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}
     </Body>

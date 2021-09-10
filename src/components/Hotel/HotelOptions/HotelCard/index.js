@@ -8,10 +8,12 @@ export default function HotelCard({ hotelCard }) {
   const { hotelData, setHotelData } = useContext(HotelContext);
   const { hotel } = useApi();
   const [isSelected, setIsSelected] = useState(false);
+
   useEffect(() => {
     if (hotelData?.id === hotelCard.id) setIsSelected(true);
     else setIsSelected(false);
   }, [hotelData]);
+  
   function toggleHotelData() {
     if (hotelData?.id === hotelCard.id) setHotelData(null);
     else {
@@ -25,6 +27,7 @@ export default function HotelCard({ hotelCard }) {
       });
     }
   }
+
   return (
     <Card onClick={toggleHotelData} isSelected={isSelected}>
       <img src={hotelCard.image} alt={hotelCard.name} />
