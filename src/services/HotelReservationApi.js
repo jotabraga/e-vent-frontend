@@ -3,6 +3,6 @@ import api from "./api";
 
 export default class HotelReservationApi extends AuthenticatedApi {
   async getHotelReservation(id) {
-    return await api.get(`/hotelReservation/${id}`);
+    return await api.get(`/hotelReservations/${id}`);
   }
 }
