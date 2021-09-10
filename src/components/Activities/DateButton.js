@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useApi from "../../hooks/useApi";
+import { toast } from "react-toastify";
 
 export default function Button(props) {
   const {
@@ -23,6 +24,7 @@ export default function Button(props) {
       .catch((err) => {
         // eslint-disable-next-line
         console.log(err);
+        toast.error("Não foi possível carregar os dados!");
       });
   }
 

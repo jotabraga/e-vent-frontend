@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 import Button from "./DateButton";
 import Location from "./Location";
@@ -31,6 +32,7 @@ export default function ActivitiesDates(props) {
       .catch((err) => {
         // eslint-disable-next-line
         console.log(err);
+        toast.error("Não foi possível carregar os dados!");
       });
   }, []);
 
