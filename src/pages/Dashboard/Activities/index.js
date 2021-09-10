@@ -18,9 +18,7 @@ export default function Activities() {
 
   const [isEnroll, setIsEnroll] = useState(null);
   const [isPaid, setIsPaid] = useState(bookingData?.isPaid);
-  const [isOnline, setIsOnline] = useState(
-    bookingData?.modality.type === "Online"
-  );
+  const [isOnline, setIsOnline] = useState(bookingData?.modality === "Online");
 
   const [messageText, setMessageText] = useState(null);
   const [showMessage, setShowMessage] = useState(true);
@@ -34,13 +32,6 @@ export default function Activities() {
       .then((res) => {
         setIsEnroll(!!res.data);
         setIsLoading(false);
-        populateMessageText(
-          isEnroll,
-          isPaid,
-          isOnline,
-          setShowMessage,
-          setMessageText
-        );
       })
       .catch((err) => {
         /* eslint-disable-next-line no-console */
