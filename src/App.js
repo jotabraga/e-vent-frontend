@@ -24,42 +24,41 @@ export default function App() {
       <EventInfoProvider>
         <UserProvider>
           <HotelProvider>
-            <BookingProvider>
-              <Router>
-                <Switch>
-                  <ConditionalRoute
-                    check={ensureCountdownOngoing}
-                    path="/"
-                    exact
-                  >
-                    <Countdown />
-                  </ConditionalRoute>
+            <Router>
+              <Switch>
+                <ConditionalRoute
+                  check={ensureCountdownOngoing}
+                  path="/"
+                  exact
+                >
+                  <Countdown />
+                </ConditionalRoute>
 
-                  <ConditionalRoute
-                    check={ensureCountdownOver}
-                    path="/enroll"
-                    exact
-                  >
-                    <Enroll />
-                  </ConditionalRoute>
+                <ConditionalRoute
+                  check={ensureCountdownOver}
+                  path="/enroll"
+                  exact
+                >
+                  <Enroll />
+                </ConditionalRoute>
 
-                  <ConditionalRoute
-                    check={ensureCountdownOver}
-                    path="/sign-in"
-                    exact
-                  >
-                    <SignIn />
-                  </ConditionalRoute>
-
+                <ConditionalRoute
+                  check={ensureCountdownOver}
+                  path="/sign-in"
+                  exact
+                >
+                  <SignIn />
+                </ConditionalRoute>
+                <BookingProvider>
                   <ConditionalRoute
                     check={ensureAuthenticated}
                     path="/dashboard"
                   >
                     <Dashboard />
                   </ConditionalRoute>
-                </Switch>
-              </Router>
-            </BookingProvider>
+                </BookingProvider>
+              </Switch>
+            </Router>
           </HotelProvider>
         </UserProvider>
       </EventInfoProvider>
