@@ -47,7 +47,17 @@ export default function Activities() {
         console.log(err);
         toast.error("Não foi possível carregar os dados!");
       });
-  });
+  }, [isPaid]);
+
+  useEffect(() => {
+    populateMessageText(
+      isEnroll,
+      isPaid,
+      isOnline,
+      setShowMessage,
+      setMessageText
+    );
+  }, [isEnroll]);
 
   return (
     <>
