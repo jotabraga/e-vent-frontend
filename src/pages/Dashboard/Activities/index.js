@@ -34,9 +34,7 @@ export default function Activities() {
         setIsLoading(false);
       })
       .catch((err) => {
-        /* eslint-disable-next-line no-console */
-        console.log(err);
-        toast.error("Não foi possível carregar os dados!");
+        toast(err.response.data.message);
       });
   }, [isPaid]);
 
