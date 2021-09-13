@@ -1,3 +1,4 @@
 {
-    "prettier.embeddedLanguageFormatting": "off"
+    "prettier.embeddedLanguageFormatting": "off",
+    "peacock.color": "#61dafb"
 }
