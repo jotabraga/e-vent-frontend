@@ -28,11 +28,8 @@ export default function Hotel() {
   const [review, setReview] = useState(false);
 
   useEffect(() => {
-    getReservationData();
-  }, []);
-
-  useEffect(() => {
     setIsLoading(true);
+    getReservationData();
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);

@@ -3,17 +3,17 @@ import styled from "styled-components";
 export default function reviewHotelCard({ hotelReservationData }) {
   return (
     <Card>
-      <img src={hotelReservationData.hotel.image} alt={hotelReservationData.hotel.name} />
-      <h1>{hotelReservationData.hotel.name}</h1>
+      <img src={hotelReservationData?.hotel?.image} alt={hotelReservationData?.hotel?.name} />
+      <h1>{hotelReservationData?.hotel?.name}</h1>
       <Property>
         <Title>Quarto reservado</Title>
-        <span>{`${hotelReservationData.room.number} (${hotelReservationData.roomType})`} </span>
+        <span>{`${hotelReservationData?.room?.number} (${hotelReservationData?.roomType})`} </span>
       </Property>
       <Property>
         <Title>Pessoas no seu quarto</Title>
-        {hotelReservationData.otherPeopleInRoom === 0
+        {hotelReservationData?.otherPeopleInRoom === 0
           ? <span>Somente você</span> 
-          : <span>Você e mais {hotelReservationData.otherPeopleInRoom}</span>
+          : <span>Você e mais {hotelReservationData?.otherPeopleInRoom}</span>
         }
       </Property>
     </Card>
