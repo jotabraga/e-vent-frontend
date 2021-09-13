@@ -18,7 +18,9 @@ export default function Activities() {
 
   const [isEnroll, setIsEnroll] = useState(null);
   const [isPaid, setIsPaid] = useState(bookingData?.isPaid);
-  const [isOnline, setIsOnline] = useState(bookingData?.modality === "Online");
+  const [isOnline, setIsOnline] = useState(
+    bookingData?.modality?.type === "Online"
+  );
 
   const [messageText, setMessageText] = useState(null);
   const [showMessage, setShowMessage] = useState(true);
