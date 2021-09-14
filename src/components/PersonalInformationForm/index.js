@@ -26,6 +26,7 @@ dayjs.extend(CustomParseFormat);
 export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
+  const [file, setFile] = useState(null);
 
   const {
     handleSubmit,
@@ -222,7 +223,6 @@ export default function PersonalInformationForm() {
             </Select>
             {errors.state && <ErrorMsg>{errors.state}</ErrorMsg>}
           </InputWrapper>
-
           <InputWrapper>
             <Input
               label="Cidade"
@@ -270,8 +270,14 @@ export default function PersonalInformationForm() {
               value={data.addressDetail || ""}
               onChange={handleChange("addressDetail")}
             />
-          </InputWrapper>
-          
+          </InputWrapper>         
+          <InputWrapper>
+            <Input
+              type="file"
+              title="Enviar .pdf"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </InputWrapper>            
           <SubmitContainer>
             <Button type="submit" disabled={dynamicInputIsLoading}>
               Salvar
