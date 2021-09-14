@@ -34,13 +34,6 @@ export default function Activities() {
       .then((res) => {
         setIsEnroll(!!res.data);
         setIsLoading(false);
-        populateMessageText(
-          isEnroll,
-          isPaid,
-          isOnline,
-          setShowMessage,
-          setMessageText
-        );
       })
       .catch((err) => {
         /* eslint-disable-next-line no-console */
