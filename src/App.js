@@ -56,11 +56,10 @@ export default function App() {
                   <ConditionalRoute
                     check={ensureCountdownOver}
                     path="/reset-password"
-                    exact
                   >
                     <ResetPassword />
                   </ConditionalRoute>
-
+                  
                   <BookingProvider>
                     <ConditionalRoute
                       check={ensureAuthenticated}
