@@ -15,8 +15,10 @@ import UserContext from "../../../contexts/UserContext";
 
 export default function Hotel() {
   const { userData } = useContext(UserContext);
-  const { hotelData } = useContext(HotelContext);
-  const { hotelReservationData, setHotelReservationData } = useContext(HotelReservationContext);
+  const { hotelData, setHotelData } = useContext(HotelContext);
+  const { hotelReservationData, setHotelReservationData } = useContext(
+    HotelReservationContext
+  );
   const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
   const { hotelReservation } = useApi();
@@ -25,27 +27,40 @@ export default function Hotel() {
   const [isSelected, setIsSelected] = useState(false);
 
   const hotelRef = useRef();
-  const [review, setReview] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     getReservationData();
+    saveHotelsData();
+    const hotelInterval = setInterval(() => {
+      saveHotelsData();
+    }, 3000);
+    setIsLoading(false);
+    return () => clearInterval(hotelInterval);
+  }, []);
+
+  function saveHotelsData() {
     const result = hotel.GetHotelsInformation();
     result.then((res) => {
       setHotels(res.data);
-      setIsLoading(false);
     });
     result.catch((err) => {
       toast(err.response.data.message);
-      setIsLoading(false);
     });
-  }, []);
+  }
 
   useEffect(() => {
     if (hotelData !== null) {
       setIsSelected(true);
     } else setIsSelected(false);
   }, [hotelData]);
+
+  useEffect(() => {
+    const actualHotelData = hotels.find((hotel) => hotel?.id === hotelData?.id);
+    if (actualHotelData) {
+      setHotelData(actualHotelData);
+    }
+  }, [hotels]);
 
   function getReservationData() {
     const result = hotelReservation.getHotelReservation(userData.user.id);
@@ -88,14 +103,21 @@ export default function Hotel() {
   return (
     <Body ref={hotelRef}>
       <h1>Escolha de hotel e quarto</h1>
-      {hotelReservationData && <ReservationReview hotelReservationData={hotelReservationData} setHotelReservationData={setHotelReservationData} />}
+      {hotelReservationData && (
+        <ReservationReview
+          hotelReservationData={hotelReservationData}
+          setHotelReservationData={setHotelReservationData}
+        />
+      )}
       {!hotelReservationData && (
         <>
           <h2>Primeiro, escolha seu hotel</h2>
           <HotelOptions hotels={hotels} />
         </>
       )}
-      {isSelected && !hotelReservationData && <RoomOptions hotelData={hotelData} />}
+      {isSelected && !hotelReservationData && (
+        <RoomOptions hotelData={hotelData} />
+      )}
       {hotelData?.roomSelected && !hotelReservationData && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}
