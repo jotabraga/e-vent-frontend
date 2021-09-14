@@ -35,10 +35,10 @@ export default function Room({ room }) {
       <span>{room.number}</span>
       <div>
         {roomPeople.map((p) =>
-          p === "IoPerson" ? (
-            <IoPerson />
-          ) : p === "IoSelected" ? (
+          p === "IoSelected" ? (
             <IoSelected />
+          ) : p === "IoPerson" ? (
+            <IoPerson />
           ) : (
             <IoPersonOutline />
           )

@@ -58,7 +58,10 @@ export default function Hotel() {
   useEffect(() => {
     const actualHotelData = hotels.find((hotel) => hotel?.id === hotelData?.id);
     if (actualHotelData) {
-      setHotelData(actualHotelData);
+      setHotelData({
+        ...actualHotelData,
+        roomSelected: hotelData.roomSelected,
+      });
     }
   }, [hotels]);
 
