@@ -26,32 +26,26 @@ export default function SignIn() {
   function submit(event) {
     event.preventDefault();
     setLoading(true);
-
-    setIsReseted(true);
-    setLoading(false);
-    // api.password.reset(email).then(response => {
-    //   setIsReseted(true);
-    // }).catch(error => {
-    //   /* eslint-disable-next-line no-console */
-    //   console.error(error);
-    //   if (error.response) {
-    //     toast(error.response.data.message);
-    //   } else {
-    //     toast("Não foi possível conectar ao servidor!");
-    //   }
-    // }).then(() => {
-    //   setLoading(false);
-    // });
+    api.password.reset(email).then(response => {
+      setIsReseted(true);
+    }).catch(error => {
+      /* eslint-disable-next-line no-console */
+      console.error(error);
+      if (error.response) {
+        toast(error.response.data.message);
+      } else {
+        toast("Não foi possível conectar ao servidor!");
+      }
+    }).then(() => {
+      setLoading(false);
+    });
   } 
 
   function buildEmailString(email) {
     let string = "";
     const firstHalf = email.split("@")[0];
     const secondHalf = email.split("@")[1];
-    string += firstHalf.slice(0, 1);
-    for(let i = 1; i < firstHalf.length; i++) {
-      string += "*";
-    };
+    string += firstHalf.slice(0, 1).padEnd(firstHalf.length - 1, "*");
     string += "@";
     string += secondHalf;
     return string;
