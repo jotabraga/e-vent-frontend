@@ -18,9 +18,7 @@ export default function Activities() {
 
   const [isEnroll, setIsEnroll] = useState(null);
   const [isPaid, setIsPaid] = useState(bookingData?.isPaid);
-  const [isOnline, setIsOnline] = useState(
-    bookingData?.modality?.type === "Online"
-  );
+  const [isOnline, setIsOnline] = useState(bookingData?.modality?.type === "Online");
 
   const [messageText, setMessageText] = useState(null);
   const [showMessage, setShowMessage] = useState(true);
@@ -41,13 +39,7 @@ export default function Activities() {
   }, [isPaid]);
 
   useEffect(() => {
-    populateMessageText(
-      isEnroll,
-      isPaid,
-      isOnline,
-      setShowMessage,
-      setMessageText
-    );
+    populateMessageText(isEnroll, isPaid, isOnline, setShowMessage, setMessageText);
   }, [isEnroll]);
 
   return (
@@ -55,13 +47,10 @@ export default function Activities() {
       <Loading isLoading={isLoading} className="loading" />
       <Container show={!isLoading}>
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-        <Message show={!showMessage}>{messageText}</Message>
-        <SubContainer show={showMessage} h2Show={dayIsSelected}>
+        <Message show={showMessage}>{messageText}</Message>
+        <SubContainer show={!showMessage} h2Show={dayIsSelected}>
           <h2>Primeiro, filtre pelo dia do evento: </h2>
-          <ActivitiesDates
-            setDayIsSelected={setDayIsSelected}
-            dayIsSelected={dayIsSelected}
-          />
+          <ActivitiesDates setDayIsSelected={setDayIsSelected} dayIsSelected={dayIsSelected} />
         </SubContainer>
       </Container>
     </>
