@@ -10,6 +10,7 @@ export default function ActivitiesDates(props) {
   const { setDayIsSelected, dayIsSelected } = props;
   const [dates, setDates] = useState([]);
   const [activitiesByDate, setActivitiesByDate] = useState([]);
+  const [userActivities, setUserActivities] = useState([]);
   const { activity } = useApi();
 
   const [selectedDay, setSelectedDay] = useState([]);
@@ -30,9 +31,7 @@ export default function ActivitiesDates(props) {
         setDates(res.data);
       })
       .catch((err) => {
-        // eslint-disable-next-line
-        console.log(err);
-        toast.error("Não foi possível carregar os dados!");
+        toast("Não foi possível carregar os dados!");
       });
   }, []);
 
@@ -55,12 +54,24 @@ export default function ActivitiesDates(props) {
             setSelectedDay={setSelectedDay}
             selectedDay={selectedDay}
             setActivitiesByDate={setActivitiesByDate}
+            setUserActivities={setUserActivities}
           />
         );
       })}
       <Locations show={dayIsSelected}>
         {differentsLocations.map((item, i) => (
-          <Location name={item} key={i} />
+          <Location
+            name={item}
+            key={i}
+            userActivities={userActivities}
+            activitiesByLocation={activitiesByDate.filter((location) => {
+              if (location.location.name === item) {
+                return true;
+              } else {
+                return false;
+              }
+            })}
+          />
         ))}
       </Locations>
     </>
