@@ -116,6 +116,7 @@ const Container = styled.div`
 
     .icon {
       width: 100%;
+      font-size: 20px;
 
       display: flex;
       justify-content: center;
