@@ -25,22 +25,21 @@ export default function ResetPassword() {
   function submit(event) {
     event.preventDefault();
     setLoading(true);
-    setIsReseted(true);
-    setLoading(false);
 
-    // api.password.getResetLink(email).then(response => {
-    //   setIsReseted(true);
-    // }).catch(error => {
-    //   /* eslint-disable-next-line no-console */
-    //   console.error(error);
-    //   if (error.response) {
-    //     toast(error.response.data.message);
-    //   } else {
-    //     toast("Não foi possível conectar ao servidor!");
-    //   }
-    // }).then(() => {
-    //   setLoading(false);
-    // });
+    api.password.getResetLink(email).then(() => {
+      setIsReseted(true);
+      toast("Link enviado para o email");
+    }).catch(error => {
+      /* eslint-disable-next-line no-console */
+      console.error(error);
+      if (error.response) {
+        toast(error.response.data.message);
+      } else {
+        toast("Não foi possível conectar ao servidor!");
+      }
+    }).then(() => {
+      setLoading(false);
+    });
   } 
 
   function buildEmailString(email) {

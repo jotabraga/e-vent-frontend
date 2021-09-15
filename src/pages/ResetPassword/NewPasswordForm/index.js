@@ -30,20 +30,20 @@ export default function CreateNewPassword() {
     if (password !== confirmPassword) {
       toast("As senhas devem ser iguais!");
     } else {
-      // api.password.updatePassword(password, resetToken).then(response => {
-      //   toast("Sua senha foi alterada com sucesso!");
-      //   history.push("/sign-in");
-      // }).catch(error => {
-      //   if (error.response) {
-      //     for (const detail of error.response.data.details) {
-      //       toast(detail);
-      //     }
-      //   } else {
-      //     toast("Não foi possível conectar ao servidor!");
-      //   }
-      // }).then(() => {
-      //   setLoading(false);
-      // });
+      api.password.updatePassword(password, resetToken).then(() => {
+        toast("Sua senha foi alterada com sucesso!");
+        history.push("/sign-in");
+      }).catch(error => {
+        if (error.response) {
+          for (const detail of error.response.data.details) {
+            toast(detail);
+          }
+        } else {
+          toast("Não foi possível conectar ao servidor!");
+        }
+      }).then(() => {
+        setLoading(false);
+      });
     }
   }
 
