@@ -29,13 +29,12 @@ export default function CreditCard(props) {
     e.preventDefault();
     setIsSendingInfo(true);
     if (!checkCardData(number, name, cvc, expiry)) {
-      toast.error("Dados do cartão preenchidos incorretamente");
       setIsSendingInfo(false);
       return;
     }
 
     if (!checkExpiryDate(String(expiry))) {
-      toast.error("Data de validade inválida");
+      toast("Data de validade inválida");
       setIsSendingInfo(false);
       return false;
     }
@@ -43,11 +42,11 @@ export default function CreditCard(props) {
     request.then(() => {
       setBookingData( { ...bookingData, isPaid: true } );
       setIsSendingInfo(false);
-      toast.success("Sua reserva foi paga com sucesso!");
+      toast("Sua reserva foi paga com sucesso!");
     });
     request.catch((error) => {
       setIsSendingInfo(false);
-      toast.error(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
+      toast(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
     });               
   }
 
@@ -80,7 +79,6 @@ export default function CreditCard(props) {
                 name="number"
                 value={number}
                 size = "small"
-                required
               />
             }
           </InputMask>
@@ -95,7 +93,6 @@ export default function CreditCard(props) {
             onChange={(e) => handleChange(e, setName)}
             onFocus={(e) => setFocus(e.target.name)}
             size = "small"
-            required
           />
           <div className="double-input">
             <InputMask 
@@ -114,7 +111,6 @@ export default function CreditCard(props) {
                   name="expiry"
                   value={expiry}
                   size = "small"
-                  required
                 />
               }
             </InputMask>
@@ -130,7 +126,6 @@ export default function CreditCard(props) {
               onChange={(e) => handleChange(e, setCvc)}
               onFocus={(e) => setFocus(e.target.name)}
               size = "small"
-              required
             />
           </div>
         </div>

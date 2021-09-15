@@ -24,7 +24,7 @@ export default function Button(props) {
       .catch((err) => {
         // eslint-disable-next-line
         console.log(err);
-        toast.error("Não foi possível carregar os dados!");
+        toast("Não foi possível carregar os dados!");
       });
   }
 
