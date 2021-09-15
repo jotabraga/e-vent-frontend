@@ -31,6 +31,7 @@ export default function PersonalInformationForm() {
   const { enrollment, cep } = useApi();
   const [file, setFile] = useState(null);
   const [imageUrl, setImageurl] = useState("");
+  const storageApi = new StorageApi();
 
   const {
     handleSubmit,
@@ -60,7 +61,7 @@ export default function PersonalInformationForm() {
       };
 
       if(file) {
-        uploadUserPicture();
+        handlePictureRequisition();
       }
 
       enrollment.save(newData).then(() => {
@@ -93,10 +94,11 @@ export default function PersonalInformationForm() {
     },
   });
 
-  async function uploadUserPicture() {
+  async function handlePictureRequisition() {
     const url = await generateUploadURL();
-    const imageUrl = await StorageApi.saveUserPicture(file, url);     
+    const imageUrl = await storageApi.uploadUserPicture(file, url);     
     setImageurl(imageUrl); 
+    await storageApi.sendImageToDatabase( { imageUrl } );
   }
 
   useEffect(() => {
