@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "aws-sdk": "^2.989.0",
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "dayjs": "^1.10.7",
@@ -27,6 +28,7 @@
     "react-toastify": "^7.0.4",
     "react-useinterval": "^1.0.2",
     "styled-components": "^5.3.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

@@ -55,6 +55,10 @@ export default function PersonalInformationForm() {
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
 
+      if(file) {
+        uploadUserPicture(file);
+      }
+
       enrollment.save(newData).then(() => {
         toast("Salvo com sucesso!");
       }).catch((error) => {
@@ -111,6 +115,10 @@ export default function PersonalInformationForm() {
 
   function isValidCep(cep) {
     return cep.length === 8;
+  }
+
+  function uploadUserPicture(file) {
+    
   }
 
   function handleCepChanges(event) {
