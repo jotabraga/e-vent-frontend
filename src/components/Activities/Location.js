@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Activity from "./Activity";
 
 export default function Location(props) {
-  const { name, activitiesByLocation, userActivities } = props;
+  const { name, activitiesByLocation, userActivities, setUserActivities } = props;
   return (
     <DayLocation>
       <h3>{name}</h3>
@@ -14,7 +14,10 @@ export default function Location(props) {
             endHour={item.end_hour}
             seats={item.remaining_seats}
             title={item.title}
+            id={item.id}
             isRegistered={userActivities.includes(item.id)}
+            setUserActivities={setUserActivities}
+            userActivities={userActivities}
           />
         ))}
       </div>

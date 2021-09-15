@@ -20,9 +20,7 @@ export default function ActivitiesDates(props) {
   }, [selectedDay]);
 
   const allLocations = activitiesByDate.map((item) => item.location.name);
-  const differentsLocations = allLocations.filter(
-    (item, i) => allLocations.indexOf(item) === i
-  );
+  const differentsLocations = allLocations.filter((item, i) => allLocations.indexOf(item) === i);
 
   useEffect(() => {
     activity
@@ -41,10 +39,7 @@ export default function ActivitiesDates(props) {
         let text = new Date(day.date)
           .toLocaleDateString("br-PT", { weekday: "long" })
           .split("-", 1);
-        text =
-          text +
-          ", " +
-          new Date(day.date).toLocaleDateString("br-PT").slice(0, 5);
+        text = text + ", " + new Date(day.date).toLocaleDateString("br-PT").slice(0, 5);
         const finalText = text[0].toUpperCase() + text.substr(1);
         return (
           <Button
@@ -63,6 +58,7 @@ export default function ActivitiesDates(props) {
           <Location
             name={item}
             key={i}
+            setUserActivities={setUserActivities}
             userActivities={userActivities}
             activitiesByLocation={activitiesByDate.filter((location) => {
               if (location.location.name === item) {

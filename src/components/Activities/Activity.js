@@ -1,12 +1,29 @@
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import { chooseIcon, calculateHeight } from "./utils/utils";
 
-export default function Activity({ title, startHour, endHour, seats, isRegistered }) {
+export default function Activity({
+  title,
+  startHour,
+  endHour,
+  seats,
+  isRegistered,
+  id,
+  setUserActivities,
+  userActivities,
+}) {
+  function checkActivities() {
+    setUserActivities([...userActivities, id]);
+  }
+
   return (
     <Container
-      isRegistered={false}
+      isRegistered={isRegistered}
       isRed={seats === 0}
       height={calculateHeight(startHour, endHour)}
+      onClick={() => {
+        seats === 0 ? toast("Lotação esgotada") : checkActivities();
+      }}
     >
       <div>
         <h1 className="title">{title}</h1>
