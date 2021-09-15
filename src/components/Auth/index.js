@@ -27,3 +27,7 @@ export const Row = styled.div`
   justify-content: flex-start;
   width: 100%;
 `;
+
+export const Span = styled.span`
+  margin-top: -70%;
+`;
