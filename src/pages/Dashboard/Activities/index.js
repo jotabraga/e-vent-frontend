@@ -17,8 +17,8 @@ export default function Activities() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [isEnroll, setIsEnroll] = useState(null);
-  const [isPaid, setIsPaid] = useState(bookingData?.isPaid);
-  const [isOnline, setIsOnline] = useState(bookingData?.modality?.type === "Online");
+  const [isPaid, setIsPaid] = useState(null);
+  const [isOnline, setIsOnline] = useState(null);
 
   const [messageText, setMessageText] = useState(null);
   const [showMessage, setShowMessage] = useState(true);
@@ -36,6 +36,8 @@ export default function Activities() {
       .catch((err) => {
         toast("Não foi possível carregar os dados!");
       });
+    setIsPaid(bookingData?.isPaid);
+    setIsOnline(bookingData?.modality?.type === "Online");
   }, [isPaid]);
 
   useEffect(() => {
