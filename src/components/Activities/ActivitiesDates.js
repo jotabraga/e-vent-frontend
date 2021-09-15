@@ -59,6 +59,9 @@ export default function ActivitiesDates(props) {
             name={item}
             key={i}
             setUserActivities={setUserActivities}
+            userActivitiesByDate={activitiesByDate.filter((item) =>
+              userActivities.includes(item.id)
+            )}
             userActivities={userActivities}
             activitiesByLocation={activitiesByDate.filter((location) => {
               if (location.location.name === item) {

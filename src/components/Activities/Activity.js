@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import { chooseIcon, calculateHeight } from "./utils/utils";
 
+import useApi from "../../hooks/useApi";
+
 export default function Activity({
   title,
   startHour,
@@ -11,9 +13,20 @@ export default function Activity({
   id,
   setUserActivities,
   userActivities,
+  userActivitiesByDate,
 }) {
+  const { activity } = useApi();
   function checkActivities() {
+    const userActivitiesClone = userActivities;
     setUserActivities([...userActivities, id]);
+    const body = { id };
+    activity
+      .activitySubscription(body)
+      .then(() => toast("Inscrição efetuada"))
+      .catch((err) => {
+        toast("Não foi possível efetuar a inscrição");
+        setUserActivities(userActivitiesClone);
+      });
   }
 
   return (
@@ -22,6 +35,22 @@ export default function Activity({
       isRed={seats === 0}
       height={calculateHeight(startHour, endHour)}
       onClick={() => {
+        const conflict = userActivitiesByDate.find((item) => {
+          if (
+            (item.start_hour <= startHour && startHour < item.end_hour) ||
+            (item.start_hour < endHour && endHour <= item.end_hour) ||
+            (item.start_hour > startHour && endHour > item.end_hour)
+          ) {
+            return item;
+          }
+        });
+        if (conflict) {
+          if (conflict.id === id) {
+            return toast("Atividade já inscrita");
+          } else {
+            return toast("Conflito de horário");
+          }
+        }
         seats === 0 ? toast("Lotação esgotada") : checkActivities();
       }}
     >
