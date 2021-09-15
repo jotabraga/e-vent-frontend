@@ -20,6 +20,9 @@ import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
+import { generateUploadURL } from "../../components/Storage/BucketS3";
+import StorageApi from "../../services/StorageApi";
+require("dotenv").config();
 
 dayjs.extend(CustomParseFormat);
 
@@ -27,6 +30,7 @@ export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const [file, setFile] = useState(null);
+  const [imageUrl, setImageurl] = useState("");
 
   const {
     handleSubmit,
@@ -56,7 +60,7 @@ export default function PersonalInformationForm() {
       };
 
       if(file) {
-        uploadUserPicture(file);
+        uploadUserPicture();
       }
 
       enrollment.save(newData).then(() => {
@@ -89,6 +93,12 @@ export default function PersonalInformationForm() {
     },
   });
 
+  async function uploadUserPicture() {
+    const url = await generateUploadURL();
+    const imageUrl = await StorageApi.saveUserPicture(file, url);     
+    setImageurl(imageUrl); 
+  }
+
   useEffect(() => {
     enrollment.getPersonalInformations().then(response => {
       if (response.status !== 200) {
@@ -115,10 +125,6 @@ export default function PersonalInformationForm() {
 
   function isValidCep(cep) {
     return cep.length === 8;
-  }
-
-  function uploadUserPicture(file) {
-    
   }
 
   function handleCepChanges(event) {
@@ -148,7 +154,10 @@ export default function PersonalInformationForm() {
 
   return (
     <>
-      <StyledTypography variant="h4">Suas Informações</StyledTypography>
+      <Header>
+        <StyledTypography variant="h4">Suas Informações</StyledTypography>
+        <ProfilePicture><img src={imageUrl} alt="gon" /></ProfilePicture>
+      </Header>     
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
           <InputWrapper>
@@ -296,9 +305,29 @@ export default function PersonalInformationForm() {
     </>
   );
 }
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 30px;
+`;
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
+`;
+
+const ProfilePicture = styled.div`
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-itens: center;
+  img{
+    bottom: 0;
+    height: 100%;
+  }
 `;
 
 const SubmitContainer = styled.div`
