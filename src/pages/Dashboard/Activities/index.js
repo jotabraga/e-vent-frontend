@@ -36,7 +36,7 @@ export default function Activities() {
         setIsLoading(false);
       })
       .catch((err) => {
-        toast(err.response.data.message);
+        toast("Não foi possível carregar os dados!");
       });
   }, [isPaid]);
 
@@ -55,8 +55,8 @@ export default function Activities() {
       <Loading isLoading={isLoading} className="loading" />
       <Container show={!isLoading}>
         <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
-        <Message show={showMessage}>{messageText}</Message>
-        <SubContainer show={!showMessage} h2Show={dayIsSelected}>
+        <Message show={!showMessage}>{messageText}</Message>
+        <SubContainer show={showMessage} h2Show={dayIsSelected}>
           <h2>Primeiro, filtre pelo dia do evento: </h2>
           <ActivitiesDates
             setDayIsSelected={setDayIsSelected}
