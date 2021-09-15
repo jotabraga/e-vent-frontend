@@ -41,7 +41,7 @@ export default function CreateNewPassword() {
         } else {
           toast("Não foi possível conectar ao servidor!");
         }
-      }).then(() => {
+      }).finally(() => {
         setLoading(false);
       });
     }
