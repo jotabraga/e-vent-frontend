@@ -38,6 +38,8 @@ export default function Button(props) {
         setUserActivities(res.data.userActivities);
       })
       .catch((err) => {
+        // eslint-disable-next-line
+        console.log(err);
         toast("Não foi possível carregar os dados!");
       });
   }

@@ -1,7 +1,27 @@
+import { toast } from "react-toastify";
+
 export default function checkCardData(number, name, cvc, expiry) {
-  if (String(number).length < 16 || String(cvc).length < 3 || String(expiry).length < 4 ) {
-    return false;
+  let isDataCorrect = true;
+
+  if (String(number).length < 16) {
+    isDataCorrect = false;
+    toast("Número do cartão inválido");
   }
 
-  return true;
+  if (String(cvc).length < 3) {
+    isDataCorrect = false;
+    toast("CVC incorreto");
+  }
+
+  if (String(expiry).length < 4) {
+    isDataCorrect = false;
+    toast("Data de validade incorreta");
+  }
+
+  if (String(name) === "") {
+    isDataCorrect = false;
+    toast("Por favor, preencha o nome");
+  }
+
+  return isDataCorrect;
 };
