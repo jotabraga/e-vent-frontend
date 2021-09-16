@@ -19,7 +19,6 @@ import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
-import { generateUploadURL } from "../../components/Storage/BucketS3";
 import StorageApi from "../../services/StorageApi";
 import UserPicture from "../../assets/images/standardPic.png";
 require("dotenv").config();
@@ -62,7 +61,7 @@ export default function PersonalInformationForm() {
       };
 
       if(file) {
-        handlePictureRequisition();
+        uploadImage(file);
       }
 
       enrollment.save(newData).then(() => {
@@ -95,12 +94,27 @@ export default function PersonalInformationForm() {
     },
   });
 
-  async function handlePictureRequisition() {
-    const url = await generateUploadURL();
-    const imageUrl = await storageApi.uploadUserPicture(file, url);     
-    setImageurl(imageUrl); 
-    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: imageUrl } );
+  async function uploadImage(e) {
+    const imageFile = e.target.files[0];
+    const imageSrc = await convertToBase64(imageFile);
+    setFile(imageSrc); 
+    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: file } );
   }
+
+  async function convertToBase64(imageFile) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(imageFile);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   useEffect(() => {
     enrollment.getPersonalInformations().then(response => {
@@ -159,7 +173,7 @@ export default function PersonalInformationForm() {
     <>
       <Header>
         <StyledTypography variant="h4">Suas Informações</StyledTypography>
-        <ProfilePicture><img src={imageUrl || UserPicture} alt="gon" /></ProfilePicture>
+        <ProfilePicture><img src={file || UserPicture} alt="gon" /></ProfilePicture>
       </Header>     
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
@@ -294,7 +308,8 @@ export default function PersonalInformationForm() {
           <InputWrapper>
             <Input
               type="file"
-              onChange={(e) => setFile(e.target.files[0])}
+              name="Upload file"
+              onChange={(e) => {uploadImage(e);} }
             />
           </InputWrapper>            
           <SubmitContainer>
