@@ -9,17 +9,23 @@ export default function Button(props) {
     selectedDay,
     unformattedDate,
     setActivitiesByDate,
+    setUserActivities,
   } = props;
   const selected = selectedDay.includes(day);
   const { activity } = useApi();
 
   function onSelect() {
     setSelectedDay([day]);
+    getActivitiesByDate(unformattedDate);
+  }
+
+  function getActivitiesByDate(unformattedDate) {
     const body = { date: unformattedDate.date };
     activity
       .getActivitiesByDate(body)
       .then((res) => {
-        setActivitiesByDate(res.data);
+        setActivitiesByDate(res.data.activities);
+        setUserActivities(res.data.userActivities);
       })
       .catch((err) => {
         // eslint-disable-next-line
