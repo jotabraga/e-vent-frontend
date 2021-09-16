@@ -15,7 +15,7 @@ export function BookingProvider({ children }) {
       setBookingData(response.data);
     });
     request.catch(() => {
-      toast.error("Não foi possível carregar os dados!");
+      toast("Não foi possível carregar os dados!");
     });
   }, []);
 

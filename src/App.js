@@ -9,6 +9,7 @@ import Countdown from "./pages/Countdown";
 import Enroll from "./pages/Enroll";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
+import ResetPassword from "./pages/ResetPassword";
 
 import EventInfoContext, {
   EventInfoProvider,
@@ -51,6 +52,12 @@ export default function App() {
                     exact
                   >
                     <SignIn />
+                  </ConditionalRoute>
+                  <ConditionalRoute
+                    check={ensureCountdownOver}
+                    path="/reset-password"
+                  >
+                    <ResetPassword />
                   </ConditionalRoute>
                   <PictureProvider>
                     <BookingProvider>

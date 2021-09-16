@@ -10,6 +10,9 @@ export default function ActivitiesDates(props) {
   const { setDayIsSelected, dayIsSelected } = props;
   const [dates, setDates] = useState([]);
   const [activitiesByDate, setActivitiesByDate] = useState([]);
+  const [userActivities, setUserActivities] = useState([]);
+
+  const [newInterval, setNewInterval] = useState(null);
   const { activity } = useApi();
 
   const [selectedDay, setSelectedDay] = useState([]);
@@ -19,9 +22,7 @@ export default function ActivitiesDates(props) {
   }, [selectedDay]);
 
   const allLocations = activitiesByDate.map((item) => item.location.name);
-  const differentsLocations = allLocations.filter(
-    (item, i) => allLocations.indexOf(item) === i
-  );
+  const differentsLocations = allLocations.filter((item, i) => allLocations.indexOf(item) === i);
 
   useEffect(() => {
     activity
@@ -32,7 +33,7 @@ export default function ActivitiesDates(props) {
       .catch((err) => {
         // eslint-disable-next-line
         console.log(err);
-        toast.error("Não foi possível carregar os dados!");
+        toast("Não foi possível carregar os dados!");
       });
   }, []);
 
@@ -42,10 +43,7 @@ export default function ActivitiesDates(props) {
         let text = new Date(day.date)
           .toLocaleDateString("br-PT", { weekday: "long" })
           .split("-", 1);
-        text =
-          text +
-          ", " +
-          new Date(day.date).toLocaleDateString("br-PT").slice(0, 5);
+        text = text + ", " + new Date(day.date).toLocaleDateString("br-PT").slice(0, 5);
         const finalText = text[0].toUpperCase() + text.substr(1);
         return (
           <Button
@@ -55,12 +53,30 @@ export default function ActivitiesDates(props) {
             setSelectedDay={setSelectedDay}
             selectedDay={selectedDay}
             setActivitiesByDate={setActivitiesByDate}
+            setUserActivities={setUserActivities}
+            setNewInterval={setNewInterval}
+            newInterval={newInterval}
           />
         );
       })}
       <Locations show={dayIsSelected}>
         {differentsLocations.map((item, i) => (
-          <Location name={item} key={i} />
+          <Location
+            name={item}
+            key={i}
+            setUserActivities={setUserActivities}
+            userActivitiesByDate={activitiesByDate.filter((item) =>
+              userActivities.includes(item.id)
+            )}
+            userActivities={userActivities}
+            activitiesByLocation={activitiesByDate.filter((location) => {
+              if (location.location.name === item) {
+                return true;
+              } else {
+                return false;
+              }
+            })}
+          />
         ))}
       </Locations>
     </>

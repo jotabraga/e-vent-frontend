@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import useApi from "../../hooks/useApi";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export default function Button(props) {
   const {
@@ -9,22 +10,37 @@ export default function Button(props) {
     selectedDay,
     unformattedDate,
     setActivitiesByDate,
+    setUserActivities,
+    setNewInterval,
+    newInterval,
   } = props;
   const selected = selectedDay.includes(day);
   const { activity } = useApi();
 
   function onSelect() {
+    if (newInterval) clearInterval(newInterval);
     setSelectedDay([day]);
+    getActivitiesByDate(unformattedDate);
+
+    const interval = setInterval(() => {
+      getActivitiesByDate(unformattedDate);
+    }, 3000);
+
+    setNewInterval(interval);
+  }
+
+  function getActivitiesByDate(unformattedDate) {
     const body = { date: unformattedDate.date };
     activity
       .getActivitiesByDate(body)
       .then((res) => {
-        setActivitiesByDate(res.data);
+        setActivitiesByDate(res.data.activities);
+        setUserActivities(res.data.userActivities);
       })
       .catch((err) => {
         // eslint-disable-next-line
         console.log(err);
-        toast.error("Não foi possível carregar os dados!");
+        toast("Não foi possível carregar os dados!");
       });
   }
 
