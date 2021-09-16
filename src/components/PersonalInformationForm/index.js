@@ -21,6 +21,7 @@ import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
 import StorageApi from "../../services/StorageApi";
 import UserPicture from "../../assets/images/standardPic.png";
+import PictureContext from "../../contexts/PictureContext";
 require("dotenv").config();
 
 dayjs.extend(CustomParseFormat);
@@ -29,9 +30,9 @@ export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageurl] = useState(null);
   const storageApi = new StorageApi();
   const { userData } = useContext(UserContext);
+  const { picture, setPicture } = useContext(PictureContext);
 
   const {
     handleSubmit,
@@ -94,11 +95,11 @@ export default function PersonalInformationForm() {
     },
   });
 
-  async function uploadImage(e) {
-    const imageFile = e.target.files[0];
-    const imageSrc = await convertToBase64(imageFile);
-    setFile(imageSrc); 
-    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: file } );
+  async function uploadImage(file) {
+    const imageSrc = await convertToBase64(file);
+    setPicture(imageSrc);
+    localStorage.setItem("picture", JSON.stringify(imageSrc));
+    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: imageSrc } );
   }
 
   async function convertToBase64(imageFile) {
@@ -173,7 +174,7 @@ export default function PersonalInformationForm() {
     <>
       <Header>
         <StyledTypography variant="h4">Suas Informações</StyledTypography>
-        <ProfilePicture><img src={file || UserPicture} alt="gon" /></ProfilePicture>
+        <ProfilePicture><img src={ picture || userData?.user?.picture || UserPicture } alt="Profile" /></ProfilePicture>
       </Header>     
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
@@ -308,8 +309,9 @@ export default function PersonalInformationForm() {
           <InputWrapper>
             <Input
               type="file"
+              id="files"
               name="Upload file"
-              onChange={(e) => {uploadImage(e);} }
+              onChange={(e) => setFile(e.target.files[0])}
             />
           </InputWrapper>            
           <SubmitContainer>

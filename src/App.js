@@ -15,6 +15,7 @@ import EventInfoContext, {
 } from "./contexts/EventInfoContext";
 import UserContext, { UserProvider } from "./contexts/UserContext";
 import { HotelProvider } from "./contexts/HotelContext";
+import { PictureProvider } from "./contexts/PictureContext";
 import { BookingProvider } from "./contexts/BookingContext";
 import { HotelReservationProvider } from "./contexts/HotelReservationContext";
 
@@ -51,14 +52,16 @@ export default function App() {
                   >
                     <SignIn />
                   </ConditionalRoute>
-                  <BookingProvider>
-                    <ConditionalRoute
-                      check={ensureAuthenticated}
-                      path="/dashboard"
-                    >
-                      <Dashboard />
-                    </ConditionalRoute>
-                  </BookingProvider>
+                  <PictureProvider>
+                    <BookingProvider>
+                      <ConditionalRoute
+                        check={ensureAuthenticated}
+                        path="/dashboard"
+                      >
+                        <Dashboard />
+                      </ConditionalRoute>
+                    </BookingProvider>
+                  </PictureProvider>
                 </Switch>
               </Router>
             </HotelProvider>
