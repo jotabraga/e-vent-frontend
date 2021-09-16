@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import DateFnsUtils from "@date-io/date-fns";
 import Typography from "@material-ui/core/Typography";
@@ -7,10 +7,9 @@ import dayjs from "dayjs";
 import CustomParseFormat from "dayjs/plugin/customParseFormat";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MenuItem from "@material-ui/core/MenuItem";
-
 import useApi from "../../hooks/useApi";
 import { useForm } from "../../hooks/useForm";
-
+import UserContext from "../../contexts/UserContext";
 import Input from "../Form/Input";
 import Button from "../Form/Button";
 import Select from "../../components/Form/Select";
@@ -20,12 +19,20 @@ import { InputWrapper } from "./InputWrapper";
 import { ErrorMsg } from "./ErrorMsg";
 import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
+import StorageApi from "../../services/StorageApi";
+import UserPicture from "../../assets/images/standardPic.png";
+import PictureContext from "../../contexts/PictureContext";
+require("dotenv").config();
 
 dayjs.extend(CustomParseFormat);
 
 export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
+  const [file, setFile] = useState(null);
+  const storageApi = new StorageApi();
+  const { userData } = useContext(UserContext);
+  const { picture, setPicture } = useContext(PictureContext);
 
   const {
     handleSubmit,
@@ -53,6 +60,10 @@ export default function PersonalInformationForm() {
         },
         phone: data.phone.replace(/[^0-9]+/g, "").replace(/^(\d{2})(9?\d{4})(\d{4})$/, "($1) $2-$3"),
       };
+
+      if(file) {
+        uploadImage(file);
+      }
 
       enrollment.save(newData).then(() => {
         toast("Salvo com sucesso!");
@@ -83,6 +94,28 @@ export default function PersonalInformationForm() {
       addressDetail: "",
     },
   });
+
+  async function uploadImage(file) {
+    const imageSrc = await convertToBase64(file);
+    setPicture(imageSrc);
+    localStorage.setItem("picture", JSON.stringify(imageSrc));
+    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: imageSrc } );
+  }
+
+  async function convertToBase64(imageFile) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(imageFile);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   useEffect(() => {
     enrollment.getPersonalInformations().then(response => {
@@ -139,7 +172,10 @@ export default function PersonalInformationForm() {
 
   return (
     <>
-      <StyledTypography variant="h4">Suas Informações</StyledTypography>
+      <Header>
+        <StyledTypography variant="h4">Suas Informações</StyledTypography>
+        <ProfilePicture><img src={ picture || userData?.user?.picture || UserPicture } alt="Profile" /></ProfilePicture>
+      </Header>     
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
           <InputWrapper>
@@ -222,7 +258,6 @@ export default function PersonalInformationForm() {
             </Select>
             {errors.state && <ErrorMsg>{errors.state}</ErrorMsg>}
           </InputWrapper>
-
           <InputWrapper>
             <Input
               label="Cidade"
@@ -270,8 +305,15 @@ export default function PersonalInformationForm() {
               value={data.addressDetail || ""}
               onChange={handleChange("addressDetail")}
             />
-          </InputWrapper>
-          
+          </InputWrapper>         
+          <InputWrapper>
+            <Input
+              type="file"
+              id="files"
+              name="Upload file"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </InputWrapper>            
           <SubmitContainer>
             <Button type="submit" disabled={dynamicInputIsLoading}>
               Salvar
@@ -282,9 +324,29 @@ export default function PersonalInformationForm() {
     </>
   );
 }
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 30px;
+`;
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
+`;
+
+const ProfilePicture = styled.div`
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-itens: center;
+  img{
+    bottom: 0;
+    height: 100%;
+  }
 `;
 
 const SubmitContainer = styled.div`
