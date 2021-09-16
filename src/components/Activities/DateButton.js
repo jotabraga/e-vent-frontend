@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import useApi from "../../hooks/useApi";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
 
 export default function Button(props) {
   const {
