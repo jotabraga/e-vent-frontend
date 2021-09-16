@@ -31,9 +31,6 @@ export default function Certificate() {
           <Container>
             {dayjs().isAfter(dayjs(eventInfo.endDate)) 
               ? <CertificateContainer>
-                {/* <CertificateImage>
-                  <CertificateFile eventInfo={eventInfo} username={username}/>
-                </CertificateImage> */}
                 <PDFDownloadLink 
                   document={<CertificateFile eventInfo={eventInfo} username={username}/>}
                   fileName="certificado_drivent.pdf"
