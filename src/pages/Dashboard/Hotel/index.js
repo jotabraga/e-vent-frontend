@@ -23,7 +23,7 @@ export default function Hotel() {
   const { hotel } = useApi();
   const { hotelReservation } = useApi();
   const [hotels, setHotels] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
   const hotelRef = useRef();
