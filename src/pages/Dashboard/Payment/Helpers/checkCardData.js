@@ -2,9 +2,6 @@ import { toast } from "react-toastify";
 
 export default function checkCardData(number, name, cvc, expiry) {
   let isDataCorrect = true;
-  /*if (String(number).length < 16 || String(cvc).length < 3 || String(expiry).length < 4 ) {
-    return false;
-  }*/
 
   if (String(number).length < 16) {
     isDataCorrect = false;

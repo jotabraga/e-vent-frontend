@@ -7,17 +7,19 @@ import CreditCard from "./CreditCard";
 import IsPaid from "../../../components/Payment/IsPaid";
 import OrderButton from "../../../components/Payment/OrderButton";
 import Loader from "react-loader-spinner";
+import UserContext from "../../../contexts/UserContext";
 
 export default function Payment() {
   const { bookingData } = useContext(BookingContext);
   const { modality, lodge } = bookingData;
   const [isSendingInfo, setIsSendingInfo] = useState(false);
+  const { userData } = useContext(UserContext);
 
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <NewSession >
-        <h2>Ingresso escolhido</h2>
+        <h2 onClick={() => console.log(userData)}>Ingresso escolhido</h2>
       </NewSession>
       <TicketChoosed>
         <h3>{lodge? modality.type + " + " + lodge.type : modality.type}</h3>
