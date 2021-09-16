@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import DateFnsUtils from "@date-io/date-fns";
 import Typography from "@material-ui/core/Typography";
@@ -7,10 +7,9 @@ import dayjs from "dayjs";
 import CustomParseFormat from "dayjs/plugin/customParseFormat";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MenuItem from "@material-ui/core/MenuItem";
-
 import useApi from "../../hooks/useApi";
 import { useForm } from "../../hooks/useForm";
-
+import UserContext from "../../contexts/UserContext";
 import Input from "../Form/Input";
 import Button from "../Form/Button";
 import Select from "../../components/Form/Select";
@@ -22,6 +21,7 @@ import { ufList } from "./ufList";
 import FormValidations from "./FormValidations";
 import { generateUploadURL } from "../../components/Storage/BucketS3";
 import StorageApi from "../../services/StorageApi";
+import UserPicture from "../../assets/images/standardPic.png";
 require("dotenv").config();
 
 dayjs.extend(CustomParseFormat);
@@ -30,8 +30,9 @@ export default function PersonalInformationForm() {
   const [dynamicInputIsLoading, setDynamicInputIsLoading] = useState(false);
   const { enrollment, cep } = useApi();
   const [file, setFile] = useState(null);
-  const [imageUrl, setImageurl] = useState("");
+  const [imageUrl, setImageurl] = useState(null);
   const storageApi = new StorageApi();
+  const { userData } = useContext(UserContext);
 
   const {
     handleSubmit,
@@ -98,7 +99,7 @@ export default function PersonalInformationForm() {
     const url = await generateUploadURL();
     const imageUrl = await storageApi.uploadUserPicture(file, url);     
     setImageurl(imageUrl); 
-    await storageApi.sendImageToDatabase( { imageUrl } );
+    await storageApi.sendImageToDatabase( { userId: userData.user.id, url: imageUrl } );
   }
 
   useEffect(() => {
@@ -158,7 +159,7 @@ export default function PersonalInformationForm() {
     <>
       <Header>
         <StyledTypography variant="h4">Suas Informações</StyledTypography>
-        <ProfilePicture><img src={imageUrl} alt="gon" /></ProfilePicture>
+        <ProfilePicture><img src={imageUrl || UserPicture} alt="gon" /></ProfilePicture>
       </Header>     
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
@@ -293,7 +294,6 @@ export default function PersonalInformationForm() {
           <InputWrapper>
             <Input
               type="file"
-              title="Enviar .pdf"
               onChange={(e) => setFile(e.target.files[0])}
             />
           </InputWrapper>            

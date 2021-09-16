@@ -13,7 +13,7 @@ const s3 = new aws.S3({
 });
 
 export async function generateUploadURL() {
-  const imageName = uuid();
+  const imageName = uuid() + ".jpg";
 
   const params = ({
     Bucket: "drivent-repository",
