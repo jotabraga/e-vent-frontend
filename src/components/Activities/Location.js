@@ -5,6 +5,8 @@ export default function Location(props) {
   const { name, activitiesByLocation, userActivities, setUserActivities, userActivitiesByDate } =
     props;
 
+  console.log(userActivitiesByDate, userActivities);
+
   return (
     <DayLocation>
       <h3>{name}</h3>
@@ -17,7 +19,7 @@ export default function Location(props) {
             seats={item.remaining_seats}
             title={item.title}
             id={item.id}
-            isRegistered={userActivities.includes(item.id)}
+            isRegistered={userActivities.map((item) => item.activitiesId).includes(item.id)}
             setUserActivities={setUserActivities}
             userActivities={userActivities}
             userActivitiesByDate={userActivitiesByDate}
