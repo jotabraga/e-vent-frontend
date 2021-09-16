@@ -5,7 +5,7 @@ import BookingContext from "../../../contexts/BookingContext";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import CreditCard from "./CreditCard";
 import IsPaid from "../../../components/Payment/IsPaid";
-import OrderButton from "../../../components/Payment/OrderButton";
+import Button from "../../../components/Form/Button";
 import Loader from "react-loader-spinner";
 
 export default function Payment() {
@@ -78,4 +78,9 @@ const NewSession = styled.div`
     color: #8e8e8e;
     margin-bottom: 15px;
   }
+`;
+const OrderButton = styled(Button)`
+  font-family: "Roboto" !important;
+  margin-top: 17px !important;
+  color: #000 !important;
 `;

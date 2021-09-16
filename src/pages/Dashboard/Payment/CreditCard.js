@@ -29,7 +29,6 @@ export default function CreditCard(props) {
     e.preventDefault();
     setIsSendingInfo(true);
     if (!checkCardData(number, name, cvc, expiry)) {
-      toast.error("Dados do cartão preenchidos incorretamente");
       setIsSendingInfo(false);
       return;
     }
@@ -80,7 +79,6 @@ export default function CreditCard(props) {
                 name="number"
                 value={number}
                 size = "small"
-                required
               />
             }
           </InputMask>
@@ -95,7 +93,6 @@ export default function CreditCard(props) {
             onChange={(e) => handleChange(e, setName)}
             onFocus={(e) => setFocus(e.target.name)}
             size = "small"
-            required
           />
           <div className="double-input">
             <InputMask 
@@ -114,7 +111,6 @@ export default function CreditCard(props) {
                   name="expiry"
                   value={expiry}
                   size = "small"
-                  required
                 />
               }
             </InputMask>
@@ -130,7 +126,6 @@ export default function CreditCard(props) {
               onChange={(e) => handleChange(e, setCvc)}
               onFocus={(e) => setFocus(e.target.name)}
               size = "small"
-              required
             />
           </div>
         </div>

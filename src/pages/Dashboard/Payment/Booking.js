@@ -5,13 +5,13 @@ import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
 import TicketOption from "./TicketOption";
 import BookingContext from "../../../contexts/BookingContext";
-import OrderButton from "../../../components/Payment/OrderButton";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
 import Loading from "../../../components/Loading";
 import BookingApi from "../../../services/BookingApi";
 import getBookingPrice from "./Helpers/getBookingPrice";
 import getBookingInfo from "./Helpers/getBookingInfo";
 import Loader from "react-loader-spinner";
+import Button from "../../../components/Form/Button";
 
 export default function Booking() {
   const [isLoading, setIsLoading] = useState(true);
@@ -112,4 +112,10 @@ const NoEnrollmentMessage = styled.h1`
 `;
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px !important;
+`;
+const OrderButton = styled(Button)`
+  font-family: "Roboto" !important;
+  margin-top: 17px !important;
+  color: #000 !important;
+  width: 182px;
 `;
