@@ -11,6 +11,8 @@ export default function ActivitiesDates(props) {
   const [dates, setDates] = useState([]);
   const [activitiesByDate, setActivitiesByDate] = useState([]);
   const [userActivities, setUserActivities] = useState([]);
+
+  const [newInterval, setNewInterval] = useState(null);
   const { activity } = useApi();
 
   const [selectedDay, setSelectedDay] = useState([]);
@@ -52,6 +54,8 @@ export default function ActivitiesDates(props) {
             selectedDay={selectedDay}
             setActivitiesByDate={setActivitiesByDate}
             setUserActivities={setUserActivities}
+            setNewInterval={setNewInterval}
+            newInterval={newInterval}
           />
         );
       })}

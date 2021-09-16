@@ -32,17 +32,14 @@ export default function Activities() {
       .then((res) => {
         setIsEnroll(!!res.data);
         setIsLoading(false);
+        setIsPaid(bookingData?.isPaid);
+        setIsOnline(bookingData?.modality?.type === "Online");
+        populateMessageText(isEnroll, isPaid, isOnline, setShowMessage, setMessageText);
       })
       .catch((err) => {
         toast("Não foi possível carregar os dados!");
       });
-    setIsPaid(bookingData?.isPaid);
-    setIsOnline(bookingData?.modality?.type === "Online");
-  }, [isPaid]);
-
-  useEffect(() => {
-    populateMessageText(isEnroll, isPaid, isOnline, setShowMessage, setMessageText);
-  }, [isEnroll]);
+  }, [isPaid, bookingData]);
 
   return (
     <>
