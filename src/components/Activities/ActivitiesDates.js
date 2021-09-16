@@ -29,6 +29,8 @@ export default function ActivitiesDates(props) {
         setDates(res.data);
       })
       .catch((err) => {
+        // eslint-disable-next-line
+        console.log(err);
         toast("Não foi possível carregar os dados!");
       });
   }, []);

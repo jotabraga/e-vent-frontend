@@ -28,7 +28,7 @@ export default function Booking() {
       setIsLoading(false);
     });
     request.catch((error) => {
-      toast.error("Não foi possível carregar os dados!");
+      toast("Não foi possível carregar os dados!");
     });
   }, []);
 
@@ -42,7 +42,7 @@ export default function Booking() {
     });
     request.catch((error) => {
       setIsSendingInfo(false);
-      toast.error(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
+      toast(error.response?.data?.message || "Algo deu errado. Tente mais tarde.");
     });               
   }
 
