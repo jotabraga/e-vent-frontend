@@ -5,8 +5,6 @@ export default function Location(props) {
   const { name, activitiesByLocation, userActivities, setUserActivities, userActivitiesByDate } =
     props;
 
-  console.log(userActivitiesByDate, userActivities);
-
   return (
     <DayLocation>
       <h3>{name}</h3>
