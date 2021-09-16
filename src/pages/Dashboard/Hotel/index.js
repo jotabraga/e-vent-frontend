@@ -16,14 +16,12 @@ import UserContext from "../../../contexts/UserContext";
 export default function Hotel() {
   const { userData } = useContext(UserContext);
   const { hotelData, setHotelData } = useContext(HotelContext);
-  const { hotelReservationData, setHotelReservationData } = useContext(
-    HotelReservationContext
-  );
+  const { hotelReservationData, setHotelReservationData } = useContext(HotelReservationContext);
   const { bookingData } = useContext(BookingContext);
   const { hotel } = useApi();
   const { hotelReservation } = useApi();
   const [hotels, setHotels] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
   const hotelRef = useRef();
@@ -73,10 +71,7 @@ export default function Hotel() {
   }
 
   function makeReservation() {
-    const result = hotel.makeHotelReservartion(
-      hotelData.id,
-      hotelData.roomSelected.id
-    );
+    const result = hotel.makeHotelReservartion(hotelData.id, hotelData.roomSelected.id);
     result.then(() => {
       toast("Hotel reserved");
       getReservationData();
@@ -93,10 +88,7 @@ export default function Hotel() {
     ];
     return <DeniedMessage messages={messages} />;
   }
-  if (
-    bookingData?.lodge?.type === "Sem Hotel" ||
-    bookingData?.modality?.type === "Online"
-  ) {
+  if (bookingData?.lodge?.type === "Sem Hotel" || bookingData?.modality?.type === "Online") {
     const messages = [
       "Sua modalidade de ingresso não inclui hospedagem",
       "Prossiga para a escolha de atividades",
@@ -118,9 +110,7 @@ export default function Hotel() {
           <HotelOptions hotels={hotels} />
         </>
       )}
-      {isSelected && !hotelReservationData && (
-        <RoomOptions hotelData={hotelData} />
-      )}
+      {isSelected && !hotelReservationData && <RoomOptions hotelData={hotelData} />}
       {hotelData?.roomSelected && !hotelReservationData && (
         <RoomButton onClick={makeReservation}>RESERVAR QUARTO</RoomButton>
       )}

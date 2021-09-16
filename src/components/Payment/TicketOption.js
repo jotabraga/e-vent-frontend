@@ -22,7 +22,7 @@ export default function TicketOption(props) {
       setTicketsOptions(response.data);
     });
     request.catch((error) => {
-      toast.error("Não foi possível carregar os dados!");
+      toast("Não foi possível carregar os dados!");
     });
   }, [apiPath]);
   return (

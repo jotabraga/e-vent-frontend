@@ -1,10 +1,10 @@
-import { CloseCircleOutline, CheckmarkCircleOutline, EnterOutline } from "react-ionicons";
+import { IoCloseCircleOutline, IoCheckmarkCircleOutline, IoEnterOutline } from "react-icons/io5";
 
 export function chooseIcon(seats, isRegistered) {
   if (isRegistered) {
     return (
       <>
-        <CheckmarkCircleOutline className="icon" color={"#078632"} height="16px" width="16px" />
+        <IoCheckmarkCircleOutline className="icon" color={"#078632"} height="38px" width="38px" />
         {"Inscrito"}
       </>
     );
@@ -12,14 +12,14 @@ export function chooseIcon(seats, isRegistered) {
   if (seats === 0) {
     return (
       <>
-        <CloseCircleOutline className="icon" color={"#00000"} height="16px" width="16px" />
+        <IoCloseCircleOutline className="icon" color={"#00000"} height="38px" width="38px" />
         {"Esgotado"}
       </>
     );
   } else {
     return (
       <>
-        <EnterOutline className="icon" color={"#078632"} height="16px" width="16px" />
+        <IoEnterOutline className="icon" color={"#078632"} height="38px" width="38px" />
         {seats + " vagas"}
       </>
     );
