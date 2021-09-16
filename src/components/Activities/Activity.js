@@ -16,13 +16,18 @@ export default function Activity({
   userActivitiesByDate,
 }) {
   const { activity } = useApi();
+
   function checkActivities() {
     const userActivitiesClone = userActivities;
-    setUserActivities([...userActivities, id]);
     const body = { id };
+
+    setUserActivities([...userActivities, { activitiesId: id }]);
+
     activity
       .activitySubscription(body)
-      .then(() => toast("Inscrição efetuada"))
+      .then(() => {
+        toast("Inscrição efetuada");
+      })
       .catch((err) => {
         toast("Não foi possível efetuar a inscrição");
         setUserActivities(userActivitiesClone);
