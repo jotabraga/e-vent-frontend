@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import BookingContext from "../../../contexts/BookingContext";
+import BookingContext from "../../contexts/BookingContext";
 import { useContext } from "react";
 import handleUserTicketChoice from "./Helpers/HandleUserChoice";
 export default function Options(props) {

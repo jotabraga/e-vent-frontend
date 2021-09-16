@@ -2,24 +2,21 @@ import Typography from "@material-ui/core/Typography";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import BookingContext from "../../../contexts/BookingContext";
-import getBookingPrice from "./Helpers/getBookingPrice";
-import CreditCard from "./CreditCard";
+import getBookingPrice from "../../../components/Payment/Helpers/getBookingPrice";
+import CreditCard from "../../../components/Payment/CreditCard";
 import IsPaid from "../../../components/Payment/IsPaid";
-import OrderButton from "../../../components/Payment/OrderButton";
-import Loader from "react-loader-spinner";
-import UserContext from "../../../contexts/UserContext";
+import Button from "../../../components/Form/Button";
 
 export default function Payment() {
   const { bookingData } = useContext(BookingContext);
   const { modality, lodge } = bookingData;
   const [isSendingInfo, setIsSendingInfo] = useState(false);
-  const { userData } = useContext(UserContext);
 
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <NewSession >
-        <h2 onClick={() => console.log(userData)}>Ingresso escolhido</h2>
+        <h2>Ingresso escolhido</h2>
       </NewSession>
       <TicketChoosed>
         <h3>{lodge? modality.type + " + " + lodge.type : modality.type}</h3>
@@ -34,13 +31,6 @@ export default function Payment() {
         <>
           <CreditCard setIsSendingInfo={setIsSendingInfo}/>
           <OrderButton form="cc-form" pay={true} type="submit" >
-            <Loader
-              visible={isSendingInfo}
-              type="ThreeDots"
-              color="#111"
-              height={50}
-              width={50}
-            />
             {isSendingInfo ? "": "FINALIZAR PAGAMENTO"}
           </OrderButton>
         </>
@@ -80,4 +70,9 @@ const NewSession = styled.div`
     color: #8e8e8e;
     margin-bottom: 15px;
   }
+`;
+const OrderButton = styled(Button)`
+  font-family: "Roboto" !important;
+  margin-top: 17px !important;
+  color: #000 !important;
 `;

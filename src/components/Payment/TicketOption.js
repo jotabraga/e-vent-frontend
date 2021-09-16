@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import ModalityApi from "../../../services/ModalityApi";
-import LodgeApi from "../../../services/LodgeApi";
+import ModalityApi from "../../services/ModalityApi";
+import LodgeApi from "../../services/LodgeApi";
 import { toast } from "react-toastify";
 import Options from "./Options";
-import ChoiceSession from "../../../components/Payment/ChoiceSession";
+import ChoiceSession from "./ChoiceSession";
 
 export default function TicketOption(props) {
   const [ticketOptions, setTicketsOptions] = useState(null);
