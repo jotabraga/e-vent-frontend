@@ -17,7 +17,7 @@ export default class ActivityApi extends AuthenticatedApi {
   }
 
   async activitySubscription(body) {
-    return await api.post("/activities/seats", body, {
+    return await api.post("/activities/seat", body, {
       headers: { ...this.getAuthorizationHeader() },
     });
   }
