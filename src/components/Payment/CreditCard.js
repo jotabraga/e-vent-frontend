@@ -1,10 +1,10 @@
 import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
-import  StyledCard  from "../../../components/Payment/StyledCard";
+import  StyledCard  from "./StyledCard";
 import { useState, useContext } from "react";
 import { toast } from "react-toastify";
-import BookingApi from "../../../services/BookingApi";
-import BookingContext from "../../../contexts/BookingContext";
+import BookingApi from "../../services/BookingApi";
+import BookingContext from "../../contexts/BookingContext";
 import InputMask from "react-input-mask";
 import { TextField } from "@material-ui/core";
 import checkCardData from "./Helpers/checkCardData";

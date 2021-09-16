@@ -3,14 +3,13 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import EnrollmentApi from "../../../services/EnrollmentApi";
 import { toast } from "react-toastify";
-import TicketOption from "./TicketOption";
+import TicketOption from "../../../components/Payment/TicketOption";
 import BookingContext from "../../../contexts/BookingContext";
 import ChoiceSession from "../../../components/Payment/ChoiceSession";
 import Loading from "../../../components/Loading";
 import BookingApi from "../../../services/BookingApi";
-import getBookingPrice from "./Helpers/getBookingPrice";
-import getBookingInfo from "./Helpers/getBookingInfo";
-import Loader from "react-loader-spinner";
+import getBookingPrice from "../../../components/Payment/Helpers/getBookingPrice";
+import getBookingInfo from "../../../components/Payment/Helpers/getBookingInfo";
 import Button from "../../../components/Form/Button";
 
 export default function Booking() {
@@ -76,13 +75,6 @@ export default function Booking() {
               confirmar:
             </h2>
             <OrderButton disabled={isSendingInfo} onClick={() => saveBooking()} >
-              <Loader
-                visible={isSendingInfo}
-                type="ThreeDots"
-                color="#111"
-                height={50}
-                width={50}
-              />
               {isSendingInfo ? "": "RESERVAR INGRESSO"}
             </OrderButton>
           </ChoiceSession>)
