@@ -16,10 +16,6 @@ export default function Activities() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [isEnroll, setIsEnroll] = useState(null);
-  const [isPaid, setIsPaid] = useState(null);
-  const [isOnline, setIsOnline] = useState(null);
-
   const [messageText, setMessageText] = useState(null);
   const [showMessage, setShowMessage] = useState(true);
   const { enrollment } = useApi();
@@ -30,16 +26,20 @@ export default function Activities() {
     enrollment
       .getPersonalInformations()
       .then((res) => {
-        setIsEnroll(!!res.data);
         setIsLoading(false);
-        setIsPaid(bookingData?.isPaid);
-        setIsOnline(bookingData?.modality?.type === "Online");
-        populateMessageText(isEnroll, isPaid, isOnline, setShowMessage, setMessageText);
+
+        populateMessageText(
+          !!res.data,
+          bookingData?.isPaid,
+          bookingData?.modality?.type === "Online",
+          setShowMessage,
+          setMessageText
+        );
       })
       .catch((err) => {
         toast("Não foi possível carregar os dados!");
       });
-  }, [isPaid, bookingData]);
+  }, [bookingData]);
 
   return (
     <>
