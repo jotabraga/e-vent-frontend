@@ -3,14 +3,11 @@ import styled from "styled-components";
 
 import Page from "./Page";
 
-import driventLogo from "../assets/images/drivent.png";
-
-export default function Splash({ loading = false, message = "" }) {
+export default function Splash({ loading = false, message = "E-vent" }) {
   return (
-    <StyledPage background="#FA4098">
+    <StyledPage >
       <Grid>
         {loading && <StyledLoader color="#FFFFFF" height={26} width={26} type="Oval" />}
-        <img src={driventLogo} alt="Driven.t" />
       </Grid>
       {message && <Message>{message}</Message>}
     </StyledPage>
@@ -18,7 +15,7 @@ export default function Splash({ loading = false, message = "" }) {
 }
 
 const StyledPage = styled(Page)`
-  color: white;
+  background: linear-gradient(130.02deg, #628e75 0.66%, #1a4855 83.32%);
   padding: 20px;
 `;
 
