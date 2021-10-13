@@ -1,22 +1,20 @@
-# Exam drive :memo:
-A helpful tool to get exams and useful material of past years :mortar_board:
+# E-vent :tickets:
+A helpful tool to create events :tada:
 ## Preview 👀
-![Repoprovas preview](./src/assets/preview.gif) 
-#### [Click here and try it now!](https://project-repo-provas-front-end.vercel.app/)
+![event preview](./src/assets/images/event.gif) 
+#### [Click here and try it now!](https://drivent-front-lyart.vercel.app/)
 ## About 🔎
-This is an web aplication wich students can share their old tests and find the one they need.
+This is an web aplication wich users can enroll yourselves in an event, choose between online or presential, choose lodges and get a certificate.
 ### Implemented features :heavy_check_mark:
-- [x] Subjects tests
-- [x] Professors tests
-- [x] Submit a test
-- [x] Order tests by its category
-- [x] Open a test 
-- [x] Mission page 
-- [x] Mobile version
+- [x] Enrollment
+- [x] Modalities categories (online or presential)
+- [x] Logde options (with hotels or not)
+- [x] Choose activies
+- [x] Payment page
+- [x] Certificate 
 ### Future improvements 🔮
-- [ ] Sign up
-- [ ] Log in
-- [ ] Register a professor/subject
+- [ ] Mobile version
+- [ ] Certificate only at the end of event
 ## Tech tools 🔧
 The following tools and frameworks were used in the construction of the project:<br>
 <p>
@@ -30,8 +28,8 @@ The following tools and frameworks were used in the construction of the project:
 ## How to run ⚙️
 
 1. Clone this repository
-2. Clone the [back-end repository](https://github.com/jotabraga/examdrive-backend)
-3. Follow instructions to run [back-end](https://github.com/jotabraga/examdrive-backend)
+2. Clone the [back-end repository](https://github.com/jotabraga/e-vent-backend)
+3. Follow instructions to run [back-end](https://github.com/jotabraga/e-vent-backend#readme)
 4. Install dependencies
 ```bash
 npm i
