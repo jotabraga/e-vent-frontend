@@ -12,12 +12,19 @@ export default function TicketOption(props) {
   useEffect(() => {
     let request;
 
-    if (apiPath === "modalities") {
-      request = ModalityApi.getModalities();
-    }
-    if (apiPath === "lodges") {
-      request = LodgeApi.getLodgeOptions();
-    }
+    const requestByApiPath = {
+      modalities: function () {
+        ModalityApi.getModalities();
+      },
+      lodges: function () {
+        LodgeApi.getLodgeOptions();
+      },
+      default: function () {
+        throw new Error("No api path data");
+      },
+    };
+
+    request = requestByApiPath[apiPath ?? "default"];
     request.then((response) => {
       setTicketsOptions(response.data);
     });
@@ -36,4 +43,3 @@ export default function TicketOption(props) {
     </ChoiceSession>
   );
 }
-
